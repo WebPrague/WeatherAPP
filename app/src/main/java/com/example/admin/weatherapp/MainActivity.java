@@ -115,6 +115,13 @@ public class MainActivity extends BaseActivity {
      */
     private void setDefaultFragment()
     {
+        imageView1.setImageResource(R.drawable.weather_press);
+        imageView2.setImageResource(R.drawable.view);
+        imageView3.setImageResource(R.drawable.me);
+        Button_weather.setTextColor(Color.parseColor("#3f9ada"));
+        Button_view.setTextColor(Color.parseColor("#ffffff"));
+        Button_me.setTextColor(Color.parseColor("#ffffff"));
+
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
 
