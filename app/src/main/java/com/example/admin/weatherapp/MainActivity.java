@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.admin.weatherapp.Fragment.MeActivity;
 import com.example.admin.weatherapp.Fragment.ViewActivity;
@@ -149,5 +150,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initial();
+        Toast.makeText(MainActivity.this,"hello world", Toast.LENGTH_LONG).show();
     }
 }
