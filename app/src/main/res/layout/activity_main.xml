@@ -36,6 +36,7 @@
         android:orientation="horizontal"
         >
         <LinearLayout
+            android:id="@+id/ll_weather"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -56,6 +57,7 @@
                 android:text="天气"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -76,6 +78,7 @@
                 android:text="时景"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_me"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

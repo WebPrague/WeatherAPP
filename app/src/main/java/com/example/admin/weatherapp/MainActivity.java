@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.admin.weatherapp.Fragment.MeActivity;
@@ -16,6 +17,11 @@ import com.example.admin.weatherapp.Fragment.ViewActivity;
 import com.example.admin.weatherapp.Fragment.WeatherActivity;
 
 public class MainActivity extends BaseActivity {
+
+    private LinearLayout linearLayout_weather;
+    private LinearLayout linearLayout_view;
+    private LinearLayout linearLayout_me;
+
     private WeatherActivity fragmentWeather;
     private ViewActivity fragmentView;
     private MeActivity fragmentMe;
@@ -34,6 +40,10 @@ public class MainActivity extends BaseActivity {
         fragmentView = new ViewActivity();
         fragmentMe = new MeActivity();
 
+        linearLayout_weather = (LinearLayout) findViewById(R.id.ll_weather);
+        linearLayout_view = (LinearLayout) findViewById(R.id.ll_view);
+        linearLayout_me = (LinearLayout) findViewById(R.id.ll_me);
+
         Button_weather = (Button)findViewById(R.id.btn_weather);
         Button_view = (Button)findViewById(R.id.btn_view);
         Button_me = (Button)findViewById(R.id.btn_me);
@@ -42,7 +52,7 @@ public class MainActivity extends BaseActivity {
         imageView2 = (ImageView)findViewById(R.id.imageview_view);
         imageView3 = (ImageView)findViewById(R.id.imageview_me);
 
-        imageView1.setOnClickListener(new View.OnClickListener() {
+        linearLayout_weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
@@ -65,7 +75,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        imageView2.setOnClickListener(new View.OnClickListener() {
+        linearLayout_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
@@ -87,7 +97,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        imageView3.setOnClickListener(new View.OnClickListener() {
+        linearLayout_me.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
@@ -134,16 +144,6 @@ public class MainActivity extends BaseActivity {
         transaction.hide(fragmentMe);
         transaction.commit();
     }
-
-
-    /*
-        * 所有图片变暗
-        * */
-//    private void resetImg(){
-//        imageButton_weather.setImageResource(R.drawable.weather);
-//        imageButton_view.setImageResource(R.drawable.view);
-//        imageButton_me.setImageResource(R.drawable.me);
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
