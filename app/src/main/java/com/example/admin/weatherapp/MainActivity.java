@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.example.admin.weatherapp.Fragment.MeActivity;
 import com.example.admin.weatherapp.Fragment.ViewActivity;
-import com.example.admin.weatherapp.Fragment.WeatherActivity;
+import com.example.admin.weatherapp.Fragment.WeatherFragment;
+import com.example.admin.weatherapp.weather.Weather;
+import com.example.admin.weatherapp.weather.WeatherService;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,7 +24,7 @@ public class MainActivity extends BaseActivity {
     private LinearLayout linearLayout_view;
     private LinearLayout linearLayout_me;
 
-    private WeatherActivity fragmentWeather;
+    private WeatherFragment weatherFragment;
     private ViewActivity fragmentView;
     private MeActivity fragmentMe;
 
@@ -36,7 +38,7 @@ public class MainActivity extends BaseActivity {
 
 
     public void initial(){
-        fragmentWeather = new WeatherActivity();
+        weatherFragment = new WeatherFragment();
         fragmentView = new ViewActivity();
         fragmentMe = new MeActivity();
 
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity {
 
                 //resetImg();
                 //Button_weather.setImageResource(R.drawable.weather);
-                transaction.show(fragmentWeather);
+                transaction.show(weatherFragment);
                 transaction.hide(fragmentView);
                 transaction.hide(fragmentMe);
                 transaction.commit();
@@ -90,7 +92,7 @@ public class MainActivity extends BaseActivity {
                 Button_me.setTextColor(Color.parseColor("#ffffff"));
                 //resetImg();
                 //imageButton_view.setImageResource(R.drawable.view);
-                transaction.hide(fragmentWeather);
+                transaction.hide(weatherFragment);
                 transaction.show(fragmentView);
                 transaction.hide(fragmentMe);
                 transaction.commit();
@@ -111,7 +113,7 @@ public class MainActivity extends BaseActivity {
                 Button_me.setTextColor(Color.parseColor("#3f9ada"));
                // resetImg();
                 //imageButton_me.setImageResource(R.drawable.me);
-                transaction.hide(fragmentWeather);
+                transaction.hide(weatherFragment);
                 transaction.hide(fragmentView);
                 transaction.show(fragmentMe);
                 transaction.commit();
@@ -136,7 +138,7 @@ public class MainActivity extends BaseActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
 
-        transaction.replace(R.id.fragment_weather, fragmentWeather);
+        transaction.replace(R.id.fragment_weather, weatherFragment);
         transaction.replace(R.id.fragment_view, fragmentView);
         transaction.replace(R.id.fragment_me, fragmentMe);
 
@@ -151,5 +153,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initial();
         Toast.makeText(MainActivity.this,"hello world", Toast.LENGTH_LONG).show();
+
     }
 }
