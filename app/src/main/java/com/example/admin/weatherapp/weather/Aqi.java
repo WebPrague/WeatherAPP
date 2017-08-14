@@ -6,12 +6,12 @@ public class Aqi {
     public class City
     {
         public String aqi;
-        private String co;
-        private String no2;
-        private String o3;
-        private String pm10;
+        public String co;
+        public String no2;
+        public String o3;
+        public String pm10;
         public String pm25;
-        private String qlty;
-        private String so2;
+        public String qlty;
+        public String so2;
     }
 }
