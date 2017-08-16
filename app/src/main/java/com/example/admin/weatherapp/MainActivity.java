@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private ImageView imageView3;
 
 
+
     public void initial(){
         weatherFragment = new WeatherFragment();
         viewFragment = new ViewFragment();
@@ -48,6 +49,8 @@ public class MainActivity extends BaseActivity {
         imageView1 = (ImageView)findViewById(R.id.imageview_weather);
         imageView2 = (ImageView)findViewById(R.id.imageview_view);
         imageView3 = (ImageView)findViewById(R.id.imageview_me);
+
+
 
         linearLayout_weather.setOnClickListener(new View.OnClickListener() {
             @Override

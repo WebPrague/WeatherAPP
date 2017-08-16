@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.admin.weatherapp.AddCityActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
@@ -53,6 +55,16 @@ public class WeatherFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+       ImageView tvAddCity= (ImageView)view.findViewById(R.id.iv_add_city);
+        tvAddCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddCityActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         //初始化控件
         tvTmp = (TextView)view.findViewById(R.id.tv_tmp);

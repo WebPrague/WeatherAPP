@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7da6dc"
+        >
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/iv_back_weather"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@drawable/fanhui_weather"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_back_weather"
+            android:textColor="#efeeee"
+            android:textSize="15sp"
+            android:text="城市管理"/>
+        
+        <ImageView
+            android:layout_marginRight="20dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/edit_city"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="#f2f1f1"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_addcity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#f2f1f1"/>
+
+</LinearLayout>
