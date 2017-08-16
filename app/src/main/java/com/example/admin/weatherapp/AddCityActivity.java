@@ -1,10 +1,14 @@
 package com.example.admin.weatherapp;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.List;
  */
 
 public class AddCityActivity extends BaseActivity {
+    private ImageView ivBackWeather;
 
     private List<CityWeather> cityWeatherList = new ArrayList<CityWeather>();
 
@@ -22,6 +27,7 @@ public class AddCityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcity);
+        initState();
 
         initCityWeather();
 
@@ -32,6 +38,24 @@ public class AddCityActivity extends BaseActivity {
         AddCityActivityAdapter addCityActivityAdapter = new AddCityActivityAdapter(cityWeatherList);
         recyclerView.setAdapter(addCityActivityAdapter);
 
+
+        ivBackWeather = (ImageView)findViewById(R.id.iv_back_weather);
+        ivBackWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+    }
+
+    private void initState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     private void initCityWeather(){

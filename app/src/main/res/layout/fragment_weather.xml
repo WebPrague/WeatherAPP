@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="278dp"
+        android:orientation="vertical"
+        android:background="@drawable/weather1">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,98 +103,101 @@
         </LinearLayout>
     </LinearLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       >
 
-        <RelativeLayout
+        >
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/rl_weather_message"
-            >
+            android:orientation="horizontal">
             <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东北风"
-                        android:id="@+id/now_wind_dir"
-                        android:textSize="15sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1级"
-                        android:id="@+id/tv_now_wind_spd"
-                        android:textSize="23sp"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dip"
-                    android:layout_height="30dip"
-                    android:background="#686868"
-                    android:layout_marginTop="10dp"
-
-                    />
-                <LinearLayout
+                    android:text="东北风"
+                    android:id="@+id/now_wind_dir"
+                    android:textSize="15sp"/>
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="相对湿度"
-                        android:textSize="15sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_now_hum"
-                        android:text="83%"
-                        android:textSize="23sp"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="1dip"
-                    android:layout_height="30dip"
-                    android:background="#686868"
-                    android:layout_marginTop="10dp"
-
-                    />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="体感温度"
-                        android:textSize="15sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_now_fl"
-                        android:text="16.3"
-                        android:textSize="23sp"/>
-                </LinearLayout>
+                    android:text="1级"
+                    android:id="@+id/tv_now_wind_spd"
+                    android:textSize="23sp"/>
             </LinearLayout>
-        </RelativeLayout>
+
+            <View
+                android:layout_width="1dip"
+                android:layout_height="30dip"
+                android:background="#686868"
+                android:layout_marginTop="10dp"
+
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="相对湿度"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_now_hum"
+                    android:text="83%"
+                    android:textSize="23sp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="1dip"
+                android:layout_height="30dip"
+                android:background="#686868"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="体感温度"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_now_fl"
+                    android:text="16.3"
+                    android:textSize="23sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    </LinearLayout>
 
 
 
+    <RelativeLayout
+        android:id="@+id/rl_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
         <RelativeLayout
             android:id="@+id/rl_weather_message"
             android:layout_width="match_parent"
