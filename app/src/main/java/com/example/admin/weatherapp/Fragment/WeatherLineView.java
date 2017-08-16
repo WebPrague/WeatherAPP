@@ -1,14 +1,18 @@
 package com.example.admin.weatherapp.Fragment;
 
+
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import android.view.View;
+
+import android.widget.ImageView;
 
 import com.example.admin.weatherapp.BaseActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.WeatherForecast;
 import com.example.admin.weatherapp.WeatherLineViewAdapter;
-import com.example.admin.weatherapp.weather.DailyForecast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
  */
 
 public class WeatherLineView  extends BaseActivity{
+    private ImageView btn_delete;
 
     private List<WeatherForecast> weatherForecastList = new ArrayList<WeatherForecast>();
 
@@ -25,9 +30,7 @@ public class WeatherLineView  extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weatherline_main);
-
         initWeatherForecast();
-
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_weatherline_main);
         //竖向的recyclerview
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
@@ -36,6 +39,13 @@ public class WeatherLineView  extends BaseActivity{
         WeatherLineViewAdapter adapter = new WeatherLineViewAdapter(weatherForecastList);
         recyclerView.setAdapter(adapter);
 
+        btn_delete = (ImageView)findViewById(R.id.iv_delete);
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initWeatherForecast(){
@@ -70,5 +80,8 @@ public class WeatherLineView  extends BaseActivity{
         WeatherForecast day15 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
         weatherForecastList.add(day15);
     }
+
+
+
 
 }

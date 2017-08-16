@@ -3,22 +3,15 @@ package com.example.admin.weatherapp;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.admin.weatherapp.Fragment.MeActivity;
-import com.example.admin.weatherapp.Fragment.ViewActivity;
+import com.example.admin.weatherapp.Fragment.MeFragment;
+import com.example.admin.weatherapp.Fragment.ViewFragment;
 import com.example.admin.weatherapp.Fragment.WeatherFragment;
-import com.example.admin.weatherapp.weather.Weather;
-import com.example.admin.weatherapp.weather.WeatherService;
 
 public class MainActivity extends BaseActivity {
 
@@ -27,8 +20,8 @@ public class MainActivity extends BaseActivity {
     private LinearLayout linearLayout_me;
 
     private WeatherFragment weatherFragment;
-    private ViewActivity fragmentView;
-    private MeActivity fragmentMe;
+    private ViewFragment viewFragment;
+    private MeFragment meFragment;
 
     private Button Button_weather;
     private Button Button_view;
@@ -41,8 +34,8 @@ public class MainActivity extends BaseActivity {
 
     public void initial(){
         weatherFragment = new WeatherFragment();
-        fragmentView = new ViewActivity();
-        fragmentMe = new MeActivity();
+        viewFragment = new ViewFragment();
+        meFragment = new MeFragment();
 
         linearLayout_weather = (LinearLayout) findViewById(R.id.ll_weather);
         linearLayout_view = (LinearLayout) findViewById(R.id.ll_view);
@@ -73,8 +66,8 @@ public class MainActivity extends BaseActivity {
                 //resetImg();
                 //Button_weather.setImageResource(R.drawable.weather);
                 transaction.show(weatherFragment);
-                transaction.hide(fragmentView);
-                transaction.hide(fragmentMe);
+                transaction.hide(viewFragment);
+                transaction.hide(meFragment);
                 transaction.commit();
             }
         });
@@ -95,8 +88,8 @@ public class MainActivity extends BaseActivity {
                 //resetImg();
                 //imageButton_view.setImageResource(R.drawable.view);
                 transaction.hide(weatherFragment);
-                transaction.show(fragmentView);
-                transaction.hide(fragmentMe);
+                transaction.show(viewFragment);
+                transaction.hide(meFragment);
                 transaction.commit();
             }
         });
@@ -116,8 +109,8 @@ public class MainActivity extends BaseActivity {
                // resetImg();
                 //imageButton_me.setImageResource(R.drawable.me);
                 transaction.hide(weatherFragment);
-                transaction.hide(fragmentView);
-                transaction.show(fragmentMe);
+                transaction.hide(viewFragment);
+                transaction.show(meFragment);
                 transaction.commit();
             }
         });
@@ -141,11 +134,11 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = fm.beginTransaction();
 
         transaction.replace(R.id.fragment_weather, weatherFragment);
-        transaction.replace(R.id.fragment_view, fragmentView);
-        transaction.replace(R.id.fragment_me, fragmentMe);
+        transaction.replace(R.id.fragment_view, viewFragment);
+        transaction.replace(R.id.fragment_me, meFragment);
 
-        transaction.hide(fragmentView);
-        transaction.hide(fragmentMe);
+        transaction.hide(viewFragment);
+        transaction.hide(meFragment);
         transaction.commit();
     }
 

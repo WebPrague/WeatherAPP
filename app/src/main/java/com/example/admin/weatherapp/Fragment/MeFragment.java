@@ -12,10 +12,10 @@ import com.example.admin.weatherapp.R;
  * Created by admin on 2017/8/11.
  */
 
-public class ViewActivity extends Fragment {
+public class MeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_view,container,false);
+        return inflater.inflate(R.layout.fragment_me,container,false);
     }
 }
