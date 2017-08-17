@@ -4,6 +4,14 @@ package com.example.admin.weatherapp.weather;
  * Created by admin on 2017/8/14.
  */
 public class HourlyForecast {
+
+    public static class Cond
+    {
+        public String code;
+        public String txt;
+    }
+    public Cond cond;
+
     public String date;
     public String hum;
     public String pop;

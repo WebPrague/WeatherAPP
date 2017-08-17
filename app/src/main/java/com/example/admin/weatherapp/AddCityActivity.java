@@ -1,5 +1,6 @@
 package com.example.admin.weatherapp;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -19,7 +20,8 @@ import java.util.List;
 
 public class AddCityActivity extends BaseActivity {
     private ImageView ivBackWeather;
-
+    private ImageView ivEditCity;
+    private ImageView ivAddNewCity;
     private List<CityWeather> cityWeatherList = new ArrayList<CityWeather>();
 
 
@@ -46,6 +48,26 @@ public class AddCityActivity extends BaseActivity {
                 finish();
             }
         });
+
+
+        ivEditCity = (ImageView)findViewById(R.id.iv_edit_city);
+        ivEditCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AddCityActivity.this,EditCityActivity.class));
+            }
+        });
+
+
+        ivAddNewCity = (ImageView)findViewById(R.id.iv_add_new_city);
+        ivEditCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AddCityActivity.this,SearchCityActivity.class));
+            }
+        });
+
+
 
     }
 
