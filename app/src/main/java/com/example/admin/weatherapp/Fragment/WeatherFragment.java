@@ -2,6 +2,7 @@ package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -64,10 +65,13 @@ public class WeatherFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        Typeface robotoThinTypeface = Typeface.createFromAsset(getResources().getAssets(), "Roboto-Thin.ttf");
+
 
 
         //初始化控件
         tvTmp = (TextView)view.findViewById(R.id.tv_tmp);
+        tvTmp.setTypeface(robotoThinTypeface);
         tvCond = (TextView)view.findViewById(R.id.tv_cond);
         tvQlty = (TextView)view.findViewById(R.id.aqi_qlty);
         tvAqi = (TextView)view.findViewById(R.id.tv_aqi);

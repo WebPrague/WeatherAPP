@@ -5,11 +5,17 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="278dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:background="@drawable/weather1">
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="25dp"
+           android:background="@android:color/transparent">
 
+       </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,14 +31,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="阿尔山"
-                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="新城街"
-                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
                 />
         </LinearLayout>
 
@@ -45,8 +53,8 @@
 
                 android:id="@+id/iv_add_city"
             android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
             android:layout_gravity="right"
             android:src="@drawable/add_weather"/>
         </LinearLayout>
@@ -63,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="16"
+            android:textColor="#ffffff"
             android:id="@+id/tv_tmp"
             android:textSize="70sp"/>
 
@@ -75,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:id="@+id/tv_cond"
+                android:textColor="#ffffff"
                 android:text="多云"/>
             <ImageView
                 android:layout_width="20sp"
@@ -87,12 +97,14 @@
                 android:textSize="15sp"
                 android:layout_marginLeft="5sp"
                 android:id="@+id/aqi_qlty"
+                android:textColor="#ffffff"
                 android:text="空气优"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5sp"
                 android:textSize="15sp"
+                android:textColor="#ffffff"
                 android:id="@+id/tv_aqi"
                 android:text="34" />
             <ImageView
@@ -103,17 +115,16 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            >
         <LinearLayout
-            android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -125,12 +136,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="东北风"
+                    android:textColor="#ffffff"
                     android:id="@+id/now_wind_dir"
                     android:textSize="15sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1级"
+                    android:textColor="#ffffff"
                     android:id="@+id/tv_now_wind_spd"
                     android:textSize="23sp"/>
             </LinearLayout>
@@ -138,7 +151,7 @@
             <View
                 android:layout_width="1dip"
                 android:layout_height="30dip"
-                android:background="#686868"
+                android:background="#ffffff"
                 android:layout_marginTop="10dp"
 
                 />
@@ -152,18 +165,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="相对湿度"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_now_hum"
+                    android:textColor="#ffffff"
                     android:text="83%"
                     android:textSize="23sp"/>
             </LinearLayout>
             <View
                 android:layout_width="1dip"
                 android:layout_height="30dip"
-                android:background="#686868"
+                android:background="#ffffff"
                 android:layout_marginTop="10dp"
 
                 />
@@ -178,21 +193,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="体感温度"
+                    android:textColor="#ffffff"
                     android:textSize="15sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_now_fl"
                     android:text="16.3"
+                    android:textColor="#ffffff"
                     android:textSize="23sp"/>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
 
 
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
     <RelativeLayout
         android:id="@+id/rl_mid"
         android:layout_width="match_parent"
@@ -424,5 +448,5 @@
             android:background="@android:color/transparent"
             android:text="15天趋势预报"/>
     </RelativeLayout>
-
+    </LinearLayout>
 </LinearLayout>
