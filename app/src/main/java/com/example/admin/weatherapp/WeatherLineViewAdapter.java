@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.admin.weatherapp.weather.DailyForecast;
+import com.example.admin.weatherapp.weather.WeatherService;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -20,6 +24,16 @@ public class WeatherLineViewAdapter extends RecyclerView.Adapter<WeatherLineView
 
     private List<WeatherForecast> mweatherForecastList;
 
+
+    ImageOptions imageOptions = new ImageOptions.Builder()
+            // 加载中或错误图片的ScaleType
+            .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+            // 默认自动适应大小
+            // .setSize(...)
+            .setIgnoreGif(true)
+            // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
+            .setUseMemCache(true)
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
 
     public WeatherLineViewAdapter(List<WeatherForecast> weatherForecastList) {
         this.mweatherForecastList = weatherForecastList;
@@ -41,9 +55,11 @@ public class WeatherLineViewAdapter extends RecyclerView.Adapter<WeatherLineView
     public void onBindViewHolder(ViewHolder holder, int position) {
         WeatherForecast weatherForecast = mweatherForecastList.get(position);
         holder.weatherDateTitle.setText(weatherForecast.getDate_title());
-        holder.weatherDateDetail.setText(weatherForecast.getDate_detail_month()+"月"+weatherForecast.getDate_detail_date()+"日");
-        holder.weatherMaxImage.setImageResource(weatherForecast.getMax_imageid());
-        holder.weatherMinImage.setImageResource(weatherForecast.getMin_imageid());
+        holder.weatherDateDetail.setText(weatherForecast.getDate_detail());
+//        holder.weatherMaxImage.setImageResource(weatherForecast.getMax_imageid());
+//        holder.weatherMinImage.setImageResource(weatherForecast.getMin_imageid());
+        x.image().bind(holder.weatherMaxImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(weatherForecast.getMax_imageid()) + ".png", imageOptions);
+        x.image().bind(holder.weatherMinImage, "assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(weatherForecast.getMin_imageid()) + ".png", imageOptions);
         holder.weatherMaxWeather.setText(weatherForecast.getMax_weather());
         holder.weatherMinWeather.setText(weatherForecast.getMin_weather());
         holder.weatherWind.setText(weatherForecast.getWind());

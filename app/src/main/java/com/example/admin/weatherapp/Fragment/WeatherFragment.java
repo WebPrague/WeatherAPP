@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.weatherapp.AddCityActivity;
+import com.example.admin.weatherapp.UI.AddCityActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
@@ -41,7 +41,8 @@ public class WeatherFragment extends Fragment {
     private TextView tvAfterDir;
     private TextView tvAfterMaxMin;
 
-    private WeatherService weatherService = null;
+    private static WeatherService weatherService = null;
+    public static Weather weather;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class WeatherFragment extends Fragment {
             @Override
             public void done(Weather weather, Exception e) {
                 if (e == null){
+                    WeatherFragment.weather = weather;
                     tvTmp.setText(weather.now.tmp+"°");
                     tvCond.setText(weather.now.cond.txt);
                     tvQlty.setText("空气"+weather.aqi.city.qlty);

@@ -6,8 +6,7 @@ package com.example.admin.weatherapp;
 
 public class WeatherForecast {
     private String date_title;
-    private String date_detail_month;
-    private String date_detail_date;
+    private String date_detail;
     private int max_imageid;
     private String max_weather;
     private int min_imageid;
@@ -16,10 +15,10 @@ public class WeatherForecast {
     private String wind_speed;
     private int image_air_quality;
 
-    public WeatherForecast(String date_title, String date_detail_month, String date_detail_date, int max_imageid, String max_weather, int min_imageid, String min_weather, String wind, String wind_speed, int image_air_quality) {
+    public WeatherForecast(String date_title, String date_detail, int max_imageid, String max_weather, int min_imageid, String min_weather, String wind, String wind_speed, int image_air_quality) {
         this.date_title = date_title;
-        this.date_detail_month = date_detail_month;
-        this.date_detail_date = date_detail_date;
+        this.date_detail = date_detail;
+
         this.max_imageid = max_imageid;
         this.max_weather = max_weather;
         this.min_imageid = min_imageid;
@@ -37,20 +36,12 @@ public class WeatherForecast {
         this.date_title = date_title;
     }
 
-    public String getDate_detail_month() {
-        return date_detail_month;
+    public String getDate_detail() {
+        return date_detail;
     }
 
-    public void setDate_detail_month(String date_detail_month) {
-        this.date_detail_month = date_detail_month;
-    }
-
-    public String getDate_detail_date() {
-        return date_detail_date;
-    }
-
-    public void setDate_detail_date(String date_detail_date) {
-        this.date_detail_date = date_detail_date;
+    public void setDate_detail(String date_detail) {
+        this.date_detail = date_detail;
     }
 
     public int getMax_imageid() {

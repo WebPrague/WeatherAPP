@@ -1,9 +1,11 @@
-package com.example.admin.weatherapp;
+package com.example.admin.weatherapp.UI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SearchCityActivity extends AppCompatActivity {
+import com.example.admin.weatherapp.R;
+
+public class SearchCityActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

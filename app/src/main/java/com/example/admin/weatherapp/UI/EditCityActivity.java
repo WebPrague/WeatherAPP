@@ -1,4 +1,4 @@
-package com.example.admin.weatherapp;
+package com.example.admin.weatherapp.UI;
 
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.admin.weatherapp.EditCity;
+import com.example.admin.weatherapp.EditCityActivityAdapter;
+import com.example.admin.weatherapp.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditCityActivity extends AppCompatActivity {
+public class EditCityActivity extends BaseActivity {
 
     private Button btnOkEditcity;
     private Button btnCancelcity;

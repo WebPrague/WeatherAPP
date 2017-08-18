@@ -1,15 +1,17 @@
-package com.example.admin.weatherapp;
+package com.example.admin.weatherapp.UI;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.example.admin.weatherapp.AddCityActivityAdapter;
+import com.example.admin.weatherapp.CityWeather;
+import com.example.admin.weatherapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

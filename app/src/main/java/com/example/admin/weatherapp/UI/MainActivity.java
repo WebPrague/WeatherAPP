@@ -1,4 +1,4 @@
-package com.example.admin.weatherapp;
+package com.example.admin.weatherapp.UI;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import com.example.admin.weatherapp.Fragment.MeFragment;
 import com.example.admin.weatherapp.Fragment.ViewFragment;
 import com.example.admin.weatherapp.Fragment.WeatherFragment;
+import com.example.admin.weatherapp.R;
 
 public class MainActivity extends BaseActivity {
 
