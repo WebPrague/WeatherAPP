@@ -62,7 +62,7 @@ public class AddCityActivity extends BaseActivity {
 
 
         ivAddNewCity = (ImageView)findViewById(R.id.iv_add_new_city);
-        ivEditCity.setOnClickListener(new View.OnClickListener() {
+        ivAddNewCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AddCityActivity.this,SearchCityActivity.class));
