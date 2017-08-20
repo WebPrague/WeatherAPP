@@ -40,6 +40,13 @@ public class WeatherFragment extends Fragment {
     private TextView tvAfterText;
     private TextView tvAfterDir;
     private TextView tvAfterMaxMin;
+    private TextView tvSuggestionDress;
+    private TextView tvSuggestionSunshine;
+    private TextView tvSuggestionTravel;
+    private TextView tvSuggestionSport;
+    private TextView tvSuggestionDrive;
+
+
 
     private static WeatherService weatherService = null;
     public static Weather weather;
@@ -89,8 +96,11 @@ public class WeatherFragment extends Fragment {
         tvAfterText = (TextView)view.findViewById(R.id.tv_after_text);
         tvAfterDir = (TextView)view.findViewById(R.id.tv_after_dir);
         tvAfterMaxMin = (TextView)view.findViewById(R.id.tv_after_max_min);
-
-
+        tvSuggestionDress = (TextView)view.findViewById(R.id.tv_suggestion_dress);
+        tvSuggestionSunshine = (TextView)view.findViewById(R.id.tv_suggestion_sunshine);
+        tvSuggestionTravel = (TextView)view.findViewById(R.id.tv_suggestion_travel);
+        tvSuggestionSport = (TextView)view.findViewById(R.id.tv_suggestion_sport);
+        tvSuggestionDrive = (TextView)view.findViewById(R.id.tv_suggestion_drive);
         return view;
     }
 
@@ -124,6 +134,11 @@ public class WeatherFragment extends Fragment {
                     tvAfterText.setText(weather.daily_forecast.get(2).cond.txt_d);
                     tvAfterDir.setText(weather.daily_forecast.get(2).wind.dir);
                     tvAfterMaxMin.setText(weather.daily_forecast.get(2).tmp.max+"°/"+weather.daily_forecast.get(2).tmp.min+"°");
+                    tvSuggestionDress.setText(weather.suggestion.drsg.txt);
+                    tvSuggestionSunshine.setText(weather.suggestion.uv.txt);
+                    tvSuggestionTravel.setText(weather.suggestion.trav.txt);
+                    tvSuggestionSport.setText(weather.suggestion.sport.txt);
+                    tvSuggestionDrive.setText(weather.suggestion.cw.txt);
 
                 }else {
                     Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();

@@ -499,6 +499,7 @@
                             android:textColor="#080808"
                             android:textSize="16dp"/>
                         <TextView
+                            android:id="@+id/tv_suggestion_dress"
                             android:layout_marginTop="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -540,6 +541,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tv_suggestion_sunshine"
                             android:text="紫外线强度较弱，建议出门前涂擦SPF在12-15之间、PA+的防晒护肤品。"
                             android:textSize="12sp"
                             android:textColor="#a7a7a7"/>
@@ -577,6 +579,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tv_suggestion_travel"
                             android:text="温度适宜，风不大，有降水，旅游指数一般，外出请尽量避开降雨时段，若外出，请注意防雷防雨。"
                             android:textSize="12sp"
                             android:textColor="#a7a7a7"/>
@@ -647,6 +650,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tv_suggestion_sport"
                             android:text="有降水，推荐您在室内进行健身休闲运动；若坚持户外运动，须注意携带雨具并注意避雨防滑。"
                             android:textSize="12sp"
                             android:textColor="#a7a7a7"/>
@@ -716,6 +720,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tv_suggestion_drive"
                             android:text="不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"
                             android:textSize="12sp"
                             android:textColor="#a7a7a7"/>
