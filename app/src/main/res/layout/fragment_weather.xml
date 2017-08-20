@@ -3,24 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
 <LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="350dp"
         android:orientation="vertical"
         android:background="@drawable/weather1">
-
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="25dp"
            android:background="@android:color/transparent">
-
        </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,8 +60,6 @@
             android:layout_gravity="right"
             android:src="@drawable/add_weather"/>
         </LinearLayout>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -210,20 +205,15 @@
             </LinearLayout>
         </LinearLayout>
         </RelativeLayout>
-
     </LinearLayout>
 
 
 
 
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.3">
-    <RelativeLayout
         android:id="@+id/rl_mid"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        >
@@ -442,43 +432,314 @@
         <View
             android:id="@+id/view_weather"
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="0.5px"
             android:layout_above="@+id/btn_longweather"
             android:background="#a7a6a6" />
         <Button
             android:id="@+id/btn_longweather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
             android:text="15天趋势预报"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20px"
+            android:layout_above="@+id/btn_longweather"
+            android:background="#e4e4e4" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="出行建议"
+                android:textColor="#121111"
+                android:textSize="13sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_above="@+id/btn_longweather"
+                android:background="#a7a6a6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/dress"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="穿衣打扮"
+                            android:textColor="#080808"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="建议着长袖T恤、衬衫加单裤等服装。年老体弱者宜着针织长袖衬衫、马甲和长裤。"
+                            android:textSize="12sp"
+                            android:textColor="#a7a7a7"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_above="@+id/btn_longweather"
+                    android:background="#a7a6a6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/sushine"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="紫外线情况"
+                            android:textColor="#080808"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="紫外线强度较弱，建议出门前涂擦SPF在12-15之间、PA+的防晒护肤品。"
+                            android:textSize="12sp"
+                            android:textColor="#a7a7a7"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5px"
+                    android:layout_above="@+id/btn_longweather"
+                    android:background="#a7a6a6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/travel"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="外出旅行"
+                            android:textColor="#080808"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="温度适宜，风不大，有降水，旅游指数一般，外出请尽量避开降雨时段，若外出，请注意防雷防雨。"
+                            android:textSize="12sp"
+                            android:textColor="#a7a7a7"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
 
-        <Button
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
-            android:text="15天趋势预报"/>
-        <Button
+            android:layout_height="20px"
+            android:layout_above="@+id/btn_longweather"
+            android:background="#e4e4e4" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
-            android:text="15天趋势预报"/>
-        <Button
+            android:orientation="vertical"
+
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="运动建议"
+                android:textColor="#121111"
+                android:textSize="13sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_above="@+id/btn_longweather"
+                android:background="#a7a6a6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/sport"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="户外运动"
+                            android:textColor="#080808"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="有降水，推荐您在室内进行健身休闲运动；若坚持户外运动，须注意携带雨具并注意避雨防滑。"
+                            android:textSize="12sp"
+                            android:textColor="#a7a7a7"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
-            android:text="15天趋势预报"/>
-        <Button
+            android:layout_height="20px"
+            android:layout_above="@+id/btn_longweather"
+            android:background="#e4e4e4" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
-            android:text="15天趋势预报"/>
-    </RelativeLayout>
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="驾车建议"
+                android:textColor="#121111"
+                android:textSize="13sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:layout_above="@+id/btn_longweather"
+                android:background="#a7a6a6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/drive"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="爱车请留意"
+                            android:textColor="#080808"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"
+                            android:textSize="12sp"
+                            android:textColor="#a7a7a7"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#e4e4e4">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="气象数据来自  和风天气&amp;心知天气"
+                android:textSize="10dp"
+                android:textColor="#a6a5a5"
+                />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>
