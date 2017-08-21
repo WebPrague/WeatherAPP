@@ -2,6 +2,7 @@ package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.admin.weatherapp.HourForcast;
 import com.example.admin.weatherapp.HourForecastAdapter;
 import com.example.admin.weatherapp.UI.AddCityActivity;
@@ -25,6 +31,7 @@ import com.example.admin.weatherapp.weather.HourlyForecast;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
 
+import org.w3c.dom.Text;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -43,6 +50,10 @@ import static com.example.admin.weatherapp.R.drawable.view;
 
 public class WeatherFragment extends Fragment {
 
+    public LocationClient mLocationClient = null;
+
+    public BDAbstractLocationListener myListener = new MyLocationListener();
+
     ImageOptions imageOptions = new ImageOptions.Builder()
             // 加载中或错误图片的ScaleType
             .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
@@ -54,8 +65,8 @@ public class WeatherFragment extends Fragment {
             .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
 
     private List<HourForcast> hourForcastList = new ArrayList<HourForcast>();
-    private RecyclerView mRecycleView;
 
+    private RecyclerView mRecycleView;
 
     private TextView tvTmp;
     private TextView tvCond;
@@ -82,9 +93,85 @@ public class WeatherFragment extends Fragment {
     private TextView tvSuggestionTravel;
     private TextView tvSuggestionSport;
     private TextView tvSuggestionDrive;
+    private TextView tvCity;
+    private TextView tvStreet;
+
 
     private static WeatherService weatherService = null;
     public static Weather weather;
+
+    private void initLBS(){
+
+        if (mLocationClient != null){
+            if (mLocationClient.isStarted()){
+                mLocationClient.stop();
+            }
+        }
+        mLocationClient = new LocationClient(this.getActivity().getApplicationContext());
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+
+        //option.setCoorType("bd09ll");
+        //可选，默认gcj02，设置返回的定位结果坐标系
+
+        int span=1000;
+        option.setScanSpan(span);
+        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+
+        option.setIsNeedAddress(true);
+        //可选，设置是否需要地址信息，默认不需要
+
+        option.setOpenGps(true);
+        //可选，默认false,设置是否使用gps
+
+        option.setLocationNotify(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+
+        option.setIsNeedLocationDescribe(true);
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+
+        option.setIsNeedLocationPoiList(true);
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+
+        option.setIgnoreKillProcess(false);
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+
+        //option.setIgnoreCacheException(false);
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+
+        option.setEnableSimulateGps(false);
+        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+
+        //option.setWifiValidTime(5*60*1000);
+        //可选，7.2版本新增能力，如果您设置了这个接口，首次启动定位时，会先判断当前WiFi是否超出有效期，超出有效期的话，会先重新扫描WiFi，然后再定位
+
+        mLocationClient.setLocOption(option);
+        mLocationClient.registerLocationListener(myListener);
+        mLocationClient.start();
+
+
+    }
+
+    private void locationSuccess(BDLocation bdLocation){
+
+        //tvCity.setText();
+        tvCity.setText(bdLocation.getCity());
+        tvStreet.setText(bdLocation.getStreet());
+
+        String location;
+        String locationDetail;
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //editor.putString()
+
+        //Toast.makeText(getActivity(),bdLocation.getProvince() + bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet() + " " + bdLocation.getLatitude() + "," + bdLocation.getLongitude(),Toast.LENGTH_SHORT).show();
+    }
+    private void locationFail(String msg){
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,59 +227,14 @@ public class WeatherFragment extends Fragment {
         ivTomorrowImage = (ImageView)view.findViewById(R.id.iv_tomorrow_image);
         ivAfterImage = (ImageView)view.findViewById(R.id.iv_after_image);
 
+        tvCity = (TextView)view.findViewById(R.id.tv_city);
+        tvStreet = (TextView)view.findViewById(R.id.tv_street);
+
 
         return view;
     }
 
     private void initHourForecast(){
-//        HourForcast hour01 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour01);
-//        HourForcast hour02 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour02);
-//        HourForcast hour03 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour03);
-//        HourForcast hour04 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour04);
-//        HourForcast hour05 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour05);
-//        HourForcast hour06 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour06);
-//        HourForcast hour07 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour07);
-//        HourForcast hour08 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour08);
-//        HourForcast hour09 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour09);
-//        HourForcast hour10 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour10);
-//        HourForcast hour11 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour11);
-//        HourForcast hour12 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour12);
-//        HourForcast hour13 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour13);
-//        HourForcast hour14 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour14);
-//        HourForcast hour15 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour15);
-//        HourForcast hour16 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour16);
-//        HourForcast hour17 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour17);
-//        HourForcast hour18 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour18);
-//        HourForcast hour19 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour19);
-//        HourForcast hour20 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour20);
-//        HourForcast hour21 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour21);
-//        HourForcast hour22 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour22);
-//        HourForcast hour23 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour23);
-//        HourForcast hour24 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
-//        hourForcastList.add(hour24);
 
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity(),LinearLayoutManager.HORIZONTAL,false);
@@ -220,9 +262,10 @@ public class WeatherFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        initLBS();
         //赋值控件变量
         weatherService = new WeatherService();
-        weatherService.getWeather("沈阳", new WeatherService.GetWeatherListener() {
+        weatherService.getWeather("沈阳市", new WeatherService.GetWeatherListener() {
             @Override
             public void done(Weather weather, Exception e) {
                 if (e == null){
@@ -266,4 +309,74 @@ public class WeatherFragment extends Fragment {
             }
         });
     }
+
+
+    public class MyLocationListener extends BDAbstractLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+
+            //获取定位结果
+            location.getTime();    //获取定位时间
+            location.getLocationID();    //获取定位唯一ID，v7.2版本新增，用于排查定位问题
+            location.getLocType();    //获取定位类型
+            location.getLatitude();    //获取纬度信息
+            location.getLongitude();    //获取经度信息
+            location.getRadius();    //获取定位精准度
+            location.getAddrStr();    //获取地址信息
+            location.getCountry();    //获取国家信息
+            location.getCountryCode();    //获取国家码
+            location.getCity();    //获取城市信息
+            location.getCityCode();    //获取城市码
+            location.getDistrict();    //获取区县信息
+            location.getStreet();    //获取街道信息
+            location.getStreetNumber();    //获取街道码
+            location.getLocationDescribe();    //获取当前位置描述信息
+            location.getPoiList();    //获取当前位置周边POI信息
+
+            location.getBuildingID();    //室内精准定位下，获取楼宇ID
+            location.getBuildingName();    //室内精准定位下，获取楼宇名称
+            location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息
+
+            if (location.getLocType() == BDLocation.TypeGpsLocation){
+
+                //当前为GPS定位结果，可获取以下信息
+                location.getSpeed();    //获取当前速度，单位：公里每小时
+                location.getSatelliteNumber();    //获取当前卫星数
+                location.getAltitude();    //获取海拔高度信息，单位米
+                location.getDirection();    //获取方向信息，单位度
+                locationSuccess(location);
+
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+
+                locationSuccess(location);
+                //当前为网络定位结果，可获取以下信息
+                location.getOperators();    //获取运营商信息
+
+            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
+
+                locationSuccess(location);
+                //当前为网络定位结果
+
+            } else if (location.getLocType() == BDLocation.TypeServerError) {
+                locationFail("网络定位失败");
+                //当前网络定位失败
+                //可将定位唯一ID、IMEI、定位失败时间反馈至loc-bugs@baidu.com
+
+            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                locationFail("当前网络不通");
+                //当前网络不通
+
+            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                locationFail("用户没有授权");
+                //当前缺少定位依据，可能是用户没有授权，建议弹出提示框让用户开启权限
+                //可进一步参考onLocDiagnosticMessage中的错误返回码
+
+            }
+            mLocationClient.stop();
+        }
+
+
+    }
+
 }
