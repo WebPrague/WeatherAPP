@@ -25,6 +25,9 @@ import com.example.admin.weatherapp.weather.HourlyForecast;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
 
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +43,16 @@ import static com.example.admin.weatherapp.R.drawable.view;
 
 public class WeatherFragment extends Fragment {
 
+    ImageOptions imageOptions = new ImageOptions.Builder()
+            // 加载中或错误图片的ScaleType
+            .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+            // 默认自动适应大小
+            // .setSize(...)
+            .setIgnoreGif(true)
+            // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
+            .setUseMemCache(true)
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
+
     private List<HourForcast> hourForcastList = new ArrayList<HourForcast>();
     private RecyclerView mRecycleView;
 
@@ -54,13 +67,16 @@ public class WeatherFragment extends Fragment {
     private TextView tvNowFl;
     private TextView tvTodayText;
     private TextView tvTodayDir;
+    private ImageView ivTodayImage;
     private TextView tvMaxMin;
     private TextView tvTomorrowText;
     private TextView tvTomorrowDir;
     private TextView tvTomorrowMaxMin;
+    private ImageView ivTomorrowImage;
     private TextView tvAfterText;
     private TextView tvAfterDir;
     private TextView tvAfterMaxMin;
+    private ImageView ivAfterImage;
     private TextView tvSuggestionDress;
     private TextView tvSuggestionSunshine;
     private TextView tvSuggestionTravel;
@@ -74,15 +90,7 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_weather,container,false);
-
-
-
-
         mRecycleView = (RecyclerView) view.findViewById(R.id.rv_hourly_weather_main);
-
-
-
-
         Button btn_weatherline = (Button) view.findViewById(R.id.btn_longweather);
         btn_weatherline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +108,6 @@ public class WeatherFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
         Typeface robotoThinTypeface = Typeface.createFromAsset(getResources().getAssets(), "Roboto-Thin.ttf");
 
         //初始化控件
@@ -128,6 +134,13 @@ public class WeatherFragment extends Fragment {
         tvSuggestionTravel = (TextView)view.findViewById(R.id.tv_suggestion_travel);
         tvSuggestionSport = (TextView)view.findViewById(R.id.tv_suggestion_sport);
         tvSuggestionDrive = (TextView)view.findViewById(R.id.tv_suggestion_drive);
+
+
+        ivTodayImage = (ImageView)view.findViewById(R.id.iv_today_image);
+        ivTomorrowImage = (ImageView)view.findViewById(R.id.iv_tomorrow_image);
+        ivAfterImage = (ImageView)view.findViewById(R.id.iv_after_image);
+
+
         return view;
     }
 
@@ -236,6 +249,16 @@ public class WeatherFragment extends Fragment {
                     tvSuggestionTravel.setText(weather.suggestion.trav.txt);
                     tvSuggestionSport.setText(weather.suggestion.sport.txt);
                     tvSuggestionDrive.setText(weather.suggestion.cw.txt);
+
+                    x.image().bind(ivTodayImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(Integer.parseInt(weather.daily_forecast.get(0).cond.code_d)) + ".png", imageOptions);
+
+                    //ivTodayImage.setImageResource(Integer.parseInt(weather.daily_forecast.get(0).cond.code_d));
+                    //ivTomorrowImage.setImageResource(Integer.parseInt(weather.daily_forecast.get(1).cond.code_d));
+                    x.image().bind(ivTomorrowImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(Integer.parseInt(weather.daily_forecast.get(1).cond.code_d)) + ".png", imageOptions);
+
+                    //ivAfterImage.setImageResource(Integer.parseInt(weather.daily_forecast.get(2).cond.code_d));
+
+                    x.image().bind(ivAfterImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(Integer.parseInt(weather.daily_forecast.get(2).cond.code_d)) + ".png", imageOptions);
                     initHourForecast();
                 }else {
                     Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();

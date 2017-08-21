@@ -252,7 +252,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/iv_today"
+                            android:id="@+id/iv_today_image"
                             android:layout_width="27sp"
                             android:layout_height="27sp"
                             android:src="@drawable/smallrain" />
@@ -321,6 +321,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_tomorrow_image"
                             android:layout_width="27sp"
                             android:layout_height="27sp"
                             android:src="@drawable/smallrain" />
@@ -390,6 +391,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_after_image"
                             android:layout_width="27sp"
                             android:layout_height="27sp"
                             android:src="@drawable/smallrain" />
