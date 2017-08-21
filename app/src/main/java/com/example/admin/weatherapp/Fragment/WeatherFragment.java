@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +15,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.admin.weatherapp.HourForcast;
+import com.example.admin.weatherapp.HourForecastAdapter;
 import com.example.admin.weatherapp.UI.AddCityActivity;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.WeatherForecast;
+import com.example.admin.weatherapp.weather.DailyForecast;
+import com.example.admin.weatherapp.weather.HourlyForecast;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import static com.example.admin.weatherapp.R.drawable.view;
 
 /**
  * Created by admin on 2017/8/11.
  */
 
 public class WeatherFragment extends Fragment {
+
+    private List<HourForcast> hourForcastList = new ArrayList<HourForcast>();
+    private RecyclerView mRecycleView;
+
+
     private TextView tvTmp;
     private TextView tvCond;
     private TextView tvQlty;
@@ -46,8 +67,6 @@ public class WeatherFragment extends Fragment {
     private TextView tvSuggestionSport;
     private TextView tvSuggestionDrive;
 
-
-
     private static WeatherService weatherService = null;
     public static Weather weather;
 
@@ -55,6 +74,14 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_weather,container,false);
+
+
+
+
+        mRecycleView = (RecyclerView) view.findViewById(R.id.rv_hourly_weather_main);
+
+
+
 
         Button btn_weatherline = (Button) view.findViewById(R.id.btn_longweather);
         btn_weatherline.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +100,9 @@ public class WeatherFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
         Typeface robotoThinTypeface = Typeface.createFromAsset(getResources().getAssets(), "Roboto-Thin.ttf");
-
-
 
         //初始化控件
         tvTmp = (TextView)view.findViewById(R.id.tv_tmp);
@@ -104,11 +131,81 @@ public class WeatherFragment extends Fragment {
         return view;
     }
 
+    private void initHourForecast(){
+//        HourForcast hour01 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour01);
+//        HourForcast hour02 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour02);
+//        HourForcast hour03 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour03);
+//        HourForcast hour04 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour04);
+//        HourForcast hour05 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour05);
+//        HourForcast hour06 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour06);
+//        HourForcast hour07 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour07);
+//        HourForcast hour08 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour08);
+//        HourForcast hour09 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour09);
+//        HourForcast hour10 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour10);
+//        HourForcast hour11 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour11);
+//        HourForcast hour12 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour12);
+//        HourForcast hour13 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour13);
+//        HourForcast hour14 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour14);
+//        HourForcast hour15 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour15);
+//        HourForcast hour16 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour16);
+//        HourForcast hour17 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour17);
+//        HourForcast hour18 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour18);
+//        HourForcast hour19 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour19);
+//        HourForcast hour20 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour20);
+//        HourForcast hour21 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour21);
+//        HourForcast hour22 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour22);
+//        HourForcast hour23 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour23);
+//        HourForcast hour24 = new HourForcast(R.drawable.qing,"1级","43优","09:00");
+//        hourForcastList.add(hour24);
+
+        //横向
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity(),LinearLayoutManager.HORIZONTAL,false);
+
+        mRecycleView.setLayoutManager(layoutManager);
+        HourForecastAdapter adapter = new HourForecastAdapter(hourForcastList);
+        mRecycleView.setAdapter(adapter);
+
+        Weather weather = WeatherFragment.weather;
+        for (HourlyForecast hourlyForecast : weather.hourly_forecast){
+            HourForcast hourForcast = new HourForcast(Integer.parseInt(hourlyForecast.cond.code), hourlyForecast.wind.dir+"风",hourlyForecast.wind.spd + "km/h",getFormatTime(hourlyForecast.date));
+
+            hourForcastList.add(hourForcast);
+        }
+
+        //Integer.parseInt(hourlyForecast.cond.code)
+
+    }
+    public String getFormatTime(String date){
+        return date.substring(10,16);
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
         //赋值控件变量
         weatherService = new WeatherService();
@@ -139,7 +236,7 @@ public class WeatherFragment extends Fragment {
                     tvSuggestionTravel.setText(weather.suggestion.trav.txt);
                     tvSuggestionSport.setText(weather.suggestion.sport.txt);
                     tvSuggestionDrive.setText(weather.suggestion.cw.txt);
-
+                    initHourForecast();
                 }else {
                     Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
                 }

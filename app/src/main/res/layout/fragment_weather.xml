@@ -428,7 +428,6 @@
             </LinearLayout>
         </RelativeLayout>
 
-
         <View
             android:id="@+id/view_weather"
             android:layout_width="match_parent"
@@ -440,7 +439,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:textSize="13sp"
             android:text="15天趋势预报"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20px"
+            android:layout_above="@+id/btn_longweather"
+            android:background="#e4e4e4" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:text="24小时预报"
+                    android:textColor="#2b2b2b"
+                    android:textSize="15sp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_hourly_weather_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </LinearLayout>
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="20px"
