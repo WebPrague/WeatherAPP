@@ -62,36 +62,6 @@ public class WeatherLineView  extends BaseActivity{
             weatherForecastList.add(weatherForecast);
         }
 
-//        WeatherForecast day01 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day01);
-//        WeatherForecast day02 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day02);
-//        WeatherForecast day03 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day03);
-//        WeatherForecast day04 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day04);
-//        WeatherForecast day05 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day05);
-//        WeatherForecast day06 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day06);
-//        WeatherForecast day07 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day07);
-//        WeatherForecast day08 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day08);
-//        WeatherForecast day09 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day09);
-//        WeatherForecast day10 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day10);
-//        WeatherForecast day11 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day11);
-//        WeatherForecast day12 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day12);
-//        WeatherForecast day13 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day13);
-//        WeatherForecast day14 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day14);
-//        WeatherForecast day15 = new WeatherForecast("今天","8","15",R.drawable.qing,"晴",R.drawable.leizhenyu,"雷阵雨","东北风","1级",R.drawable.kongqizhiliang_liang);
-//        weatherForecastList.add(day15);
     }
 
 

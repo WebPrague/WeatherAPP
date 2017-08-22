@@ -10,11 +10,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.admin.weatherapp.Fragment.MeFragment;
 import com.example.admin.weatherapp.Fragment.ViewFragment;
 import com.example.admin.weatherapp.Fragment.WeatherFragment;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.weather.Weather;
+
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -122,6 +131,52 @@ public class MainActivity extends BaseActivity {
         });
         setDefaultFragment();
 
+        //initialDB();
+    }
+
+    private void initialDB(){
+        DbManager db = x.getDb(daoConfig);
+
+
+        try{
+            db.findAll(WeatherCity.class);
+        }catch (Exception e){
+            WeatherCity weatherCity = new WeatherCity();
+            weatherCity.setTmp("666");
+
+            try {
+                db.save(weatherCity);
+            } catch (DbException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                WeatherCity weatherCity1 = db.findFirst(WeatherCity.class);
+                db.delete(weatherCity1);
+            }catch (Exception e1){
+
+            }
+        }
+
+
+        WeatherCity weatherCity = new WeatherCity();
+        weatherCity.setTmp("666");
+
+
+        try {
+            db.save(weatherCity);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            List<WeatherCity>weatherCities = db.findAll(WeatherCity.class);
+            for (WeatherCity weatherCity1 : weatherCities){
+                Toast.makeText(MainActivity.this, weatherCity1.getTmp(),Toast.LENGTH_LONG).show();
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -156,7 +211,9 @@ public class MainActivity extends BaseActivity {
         initial();
         //Toast.makeText(MainActivity.this,"hello world", Toast.LENGTH_LONG).show();
 
+
     }
+
 
     private void initState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

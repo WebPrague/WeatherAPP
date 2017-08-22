@@ -3,8 +3,10 @@ package com.example.admin.weatherapp.Fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.example.admin.weatherapp.HourForcast;
 import com.example.admin.weatherapp.HourForecastAdapter;
 import com.example.admin.weatherapp.UI.AddCityActivity;
@@ -42,17 +43,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static com.example.admin.weatherapp.R.drawable.view;
 
 /**
  * Created by admin on 2017/8/11.
  */
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements AMapLocationListener{
+//
+//    //获取位置城市
+   private String location = null;
 
-    public LocationClient mLocationClient = null;
+    //获取位置的详细描述
+    private String locationDetail = null;
 
-    public BDAbstractLocationListener myListener = new MyLocationListener();
+    //LBS
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    public AMapLocationClientOption mLocationOption = null;
+
+    private SweetAlertDialog pDialog;
 
     ImageOptions imageOptions = new ImageOptions.Builder()
             // 加载中或错误图片的ScaleType
@@ -102,71 +115,78 @@ public class WeatherFragment extends Fragment {
 
     private void initLBS(){
 
-        if (mLocationClient != null){
-            if (mLocationClient.isStarted()){
-                mLocationClient.stop();
-            }
-        }
-        mLocationClient = new LocationClient(this.getActivity().getApplicationContext());
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        //添加控件
+        pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("定位中，请稍后");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-        //option.setCoorType("bd09ll");
-        //可选，默认gcj02，设置返回的定位结果坐标系
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(this);
 
-        int span=1000;
-        option.setScanSpan(span);
-        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        //声明AMapLocationClientOption对象
 
-        option.setIsNeedAddress(true);
-        //可选，设置是否需要地址信息，默认不需要
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setOnceLocation(true);
+        mLocationOption.setInterval(1000);
+        mLocationOption.setNeedAddress(true);
+        mLocationOption.setWifiActiveScan(false);
+        mLocationOption.setMockEnable(true);
+        mLocationOption.setHttpTimeOut(20000);
+        mLocationOption.setLocationCacheEnable(true);
 
-        option.setOpenGps(true);
-        //可选，默认false,设置是否使用gps
 
-        option.setLocationNotify(true);
-        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-
-        option.setIsNeedLocationDescribe(true);
-        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-
-        option.setIsNeedLocationPoiList(true);
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-
-        option.setIgnoreKillProcess(false);
-        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-
-        //option.setIgnoreCacheException(false);
-        //可选，默认false，设置是否收集CRASH信息，默认收集
-
-        option.setEnableSimulateGps(false);
-        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-
-        //option.setWifiValidTime(5*60*1000);
-        //可选，7.2版本新增能力，如果您设置了这个接口，首次启动定位时，会先判断当前WiFi是否超出有效期，超出有效期的话，会先重新扫描WiFi，然后再定位
-
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(myListener);
-        mLocationClient.start();
-
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
 
     }
 
-    private void locationSuccess(BDLocation bdLocation){
 
-        //tvCity.setText();
-        tvCity.setText(bdLocation.getCity());
-        tvStreet.setText(bdLocation.getStreet());
-
-        String location;
-        String locationDetail;
+    /*
+    * 从本地存储中获取位置信息
+    * */
+    private String getLocationFromLocal(){
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //editor.putString()
+        this.location = sharedPreferences.getString("location",null);
+        return this.location;
+    }
 
-        //Toast.makeText(getActivity(),bdLocation.getProvince() + bdLocation.getCity() + bdLocation.getDistrict() + bdLocation.getStreet() + " " + bdLocation.getLatitude() + "," + bdLocation.getLongitude(),Toast.LENGTH_SHORT).show();
+
+    /*
+    * 从本地存储中获取位置的详细信息
+    * */
+    private String getLocationDetailFromLocal(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+        this.locationDetail = sharedPreferences.getString("street","");
+        return this.locationDetail;
+    }
+
+
+
+
+    private void locationSuccess(AMapLocation aMapLocation){
+       // Toast.makeText(getActivity(), aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet(),Toast.LENGTH_LONG).show();
+        this.tvCity.setText(aMapLocation.getCity());
+        this.tvStreet.setText(aMapLocation.getStreet());
+        this.location = aMapLocation.getCity();
+        this.locationDetail = aMapLocation.getStreet();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config", getActivity().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("location", aMapLocation.getCity());
+        editor.putString("street",  aMapLocation.getStreet());
+        editor.commit();
+
+
+        initialWeather();
     }
     private void locationFail(String msg){
 
@@ -230,6 +250,19 @@ public class WeatherFragment extends Fragment {
         tvCity = (TextView)view.findViewById(R.id.tv_city);
         tvStreet = (TextView)view.findViewById(R.id.tv_street);
 
+        tvCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initLBS();
+            }
+        });
+
+        tvStreet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initLBS();
+            }
+        });
 
         return view;
     }
@@ -262,10 +295,27 @@ public class WeatherFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initLBS();
+
+        getLocationFromLocal();
+        getLocationDetailFromLocal();
+        if (this.location == null){
+            initLBS();
+        }else {
+            this.tvCity.setText(this.location);
+            this.tvStreet.setText(this.locationDetail);
+            initialWeather();
+        }
+
+
+
+    }
+
+    private void initialWeather(){
         //赋值控件变量
-        weatherService = new WeatherService();
-        weatherService.getWeather("沈阳市", new WeatherService.GetWeatherListener() {
+        if (weatherService == null){
+            weatherService = new WeatherService();
+        }
+        weatherService.getWeather(this.location, new WeatherService.GetWeatherListener() {
             @Override
             public void done(Weather weather, Exception e) {
                 if (e == null){
@@ -310,73 +360,34 @@ public class WeatherFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        pDialog.cancel();
 
-    public class MyLocationListener extends BDAbstractLocationListener {
 
-        @Override
-        public void onReceiveLocation(BDLocation location) {
+        if (aMapLocation.getErrorCode() == 0){
+            final SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("定位成功")
+                    .setContentText("");
+            sweetAlertDialog.show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sweetAlertDialog.cancel();
+                }
+            },1200);
 
-            //获取定位结果
-            location.getTime();    //获取定位时间
-            location.getLocationID();    //获取定位唯一ID，v7.2版本新增，用于排查定位问题
-            location.getLocType();    //获取定位类型
-            location.getLatitude();    //获取纬度信息
-            location.getLongitude();    //获取经度信息
-            location.getRadius();    //获取定位精准度
-            location.getAddrStr();    //获取地址信息
-            location.getCountry();    //获取国家信息
-            location.getCountryCode();    //获取国家码
-            location.getCity();    //获取城市信息
-            location.getCityCode();    //获取城市码
-            location.getDistrict();    //获取区县信息
-            location.getStreet();    //获取街道信息
-            location.getStreetNumber();    //获取街道码
-            location.getLocationDescribe();    //获取当前位置描述信息
-            location.getPoiList();    //获取当前位置周边POI信息
-
-            location.getBuildingID();    //室内精准定位下，获取楼宇ID
-            location.getBuildingName();    //室内精准定位下，获取楼宇名称
-            location.getFloor();    //室内精准定位下，获取当前位置所处的楼层信息
-
-            if (location.getLocType() == BDLocation.TypeGpsLocation){
-
-                //当前为GPS定位结果，可获取以下信息
-                location.getSpeed();    //获取当前速度，单位：公里每小时
-                location.getSatelliteNumber();    //获取当前卫星数
-                location.getAltitude();    //获取海拔高度信息，单位米
-                location.getDirection();    //获取方向信息，单位度
-                locationSuccess(location);
-
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
-
-                locationSuccess(location);
-                //当前为网络定位结果，可获取以下信息
-                location.getOperators();    //获取运营商信息
-
-            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
-
-                locationSuccess(location);
-                //当前为网络定位结果
-
-            } else if (location.getLocType() == BDLocation.TypeServerError) {
-                locationFail("网络定位失败");
-                //当前网络定位失败
-                //可将定位唯一ID、IMEI、定位失败时间反馈至loc-bugs@baidu.com
-
-            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                locationFail("当前网络不通");
-                //当前网络不通
-
-            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                locationFail("用户没有授权");
-                //当前缺少定位依据，可能是用户没有授权，建议弹出提示框让用户开启权限
-                //可进一步参考onLocDiagnosticMessage中的错误返回码
-
-            }
-            mLocationClient.stop();
+            locationSuccess(aMapLocation);
+        }else {
+            new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("定位失败")
+                    .setContentText(aMapLocation.getErrorInfo())
+                    .show();
+            locationFail(aMapLocation.getErrorInfo());
         }
 
-
+        if (mLocationClient.isStarted()){
+            mLocationClient.stopLocation();
+        }
     }
-
 }
