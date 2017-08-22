@@ -11,10 +11,16 @@ import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.SearchCity;
 import com.example.admin.weatherapp.SearchCityActivityAdapter;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCityActivity extends BaseActivity {
+
+    private DbManager db;
 
     private List<SearchCity> searchCityList = new ArrayList<SearchCity>();
 
@@ -23,6 +29,9 @@ public class SearchCityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_city);
         initState();
+
+        db = x.getDb(daoConfig);
+
         initSearchCity();
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_searchCity_main);
@@ -47,30 +56,37 @@ public class SearchCityActivity extends BaseActivity {
     }
 
     private void initSearchCity(){
-        SearchCity searchCity01 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity01);
-        SearchCity searchCity02 = new SearchCity("上海");
-        searchCityList.add(searchCity02);
-        SearchCity searchCity03 = new SearchCity("北京");
-        searchCityList.add(searchCity03);
-        SearchCity searchCity04 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity04);
-        SearchCity searchCity05 = new SearchCity("北京");
-        searchCityList.add(searchCity05);
-        SearchCity searchCity06 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity06);
-        SearchCity searchCity07 = new SearchCity("北京");
-        searchCityList.add(searchCity07);
-        SearchCity searchCity08 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity08);
-        SearchCity searchCity09 = new SearchCity("北京");
-        searchCityList.add(searchCity09);
-        SearchCity searchCity10 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity10);
-        SearchCity searchCity11 = new SearchCity("上海");
-        searchCityList.add(searchCity11);
-        SearchCity searchCity12 = new SearchCity("阿尔山");
-        searchCityList.add(searchCity12);
+
+        try {
+            searchCityList.addAll(db.findAll(SearchCity.class));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+//        SearchCity searchCity01 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity01);
+//        SearchCity searchCity02 = new SearchCity("上海");
+//        searchCityList.add(searchCity02);
+//        SearchCity searchCity03 = new SearchCity("北京");
+//        searchCityList.add(searchCity03);
+//        SearchCity searchCity04 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity04);
+//        SearchCity searchCity05 = new SearchCity("北京");
+//        searchCityList.add(searchCity05);
+//        SearchCity searchCity06 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity06);
+//        SearchCity searchCity07 = new SearchCity("北京");
+//        searchCityList.add(searchCity07);
+//        SearchCity searchCity08 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity08);
+//        SearchCity searchCity09 = new SearchCity("北京");
+//        searchCityList.add(searchCity09);
+//        SearchCity searchCity10 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity10);
+//        SearchCity searchCity11 = new SearchCity("上海");
+//        searchCityList.add(searchCity11);
+//        SearchCity searchCity12 = new SearchCity("阿尔山");
+//        searchCityList.add(searchCity12);
 
     }
 }

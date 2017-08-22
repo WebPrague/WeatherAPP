@@ -12,6 +12,13 @@ import android.widget.ImageView;
 import com.example.admin.weatherapp.AddCityActivityAdapter;
 import com.example.admin.weatherapp.CityWeather;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.weather.WeatherService;
+
+import org.json.JSONArray;
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +34,21 @@ public class AddCityActivity extends BaseActivity {
     private List<CityWeather> cityWeatherList = new ArrayList<CityWeather>();
 
 
+    //数据库
+    private DbManager db;
+
+    //天气相关
+    private WeatherService weatherService;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addcity);
         initState();
+
+        weatherService = new WeatherService();
+        db = x.getDb(daoConfig);
 
         initCityWeather();
 
@@ -39,6 +56,8 @@ public class AddCityActivity extends BaseActivity {
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        //这里后期会处理位置切换广播
         AddCityActivityAdapter addCityActivityAdapter = new AddCityActivityAdapter(cityWeatherList);
         recyclerView.setAdapter(addCityActivityAdapter);
 
