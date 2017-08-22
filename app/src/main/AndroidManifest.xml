@@ -19,6 +19,13 @@
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
 
+
+    <!-- 添加必要的权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+
     <application
         android:name=".WeatherApplication"
         android:allowBackup="true"
@@ -39,6 +46,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <!--qq分享-->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
+            <intent-filter>
+                <data android:scheme="1106290635" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+        <meta-data android:name="Mob-AppKey" android:value="205d30da23dce"/>
+        <meta-data android:name="Mob-AppSecret" android:value="2d0e4b3b36020dd990ceb3b395810a97"/>
+
         <activity
             android:name=".Fragment.WeatherLineView"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -48,7 +78,11 @@
         <activity
             android:name=".UI.EditCityActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".UI.SearchCityActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".UI.SearchCityActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+        <activity android:name=".UI.WeatherWikiActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
 
 
     </application>

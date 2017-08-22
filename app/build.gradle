@@ -12,6 +12,10 @@ repositories {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
+    aaptOptions{
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
     defaultConfig {
         applicationId "com.example.admin.weatherapp"
         minSdkVersion 19
@@ -32,6 +36,7 @@ android {
         }
     }
 
+
 }
 
 
@@ -46,9 +51,21 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     testCompile 'junit:junit:4.12'
-
     compile files('libs/xutils-3.5.0.jar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
+    compile files('libs/MobCommons-2017.0819.1854.jar')
+    compile files('libs/MobTools-2017.0819.1854.jar')
+    compile files('libs/ShareSDK-Core-3.0.1.jar')
+    compile files('libs/ShareSDK-Email-3.0.1.jar')
+    compile files('libs/ShareSDK-Facebook-3.0.1.jar')
+    compile files('libs/ShareSDK-QZone-3.0.1.jar')
+    compile files('libs/ShareSDK-ShortMessage-3.0.1.jar')
+    compile files('libs/ShareSDK-SinaWeibo-3.0.1.jar')
+    compile files('libs/ShareSDK-TencentWeibo-3.0.1.jar')
+    compile files('libs/ShareSDK-Twitter-3.0.1.jar')
+    compile files('libs/ShareSDK-Wechat-3.0.1.jar')
+    compile files('libs/ShareSDK-Wechat-Core-3.0.1.jar')
+    compile files('libs/ShareSDK-Wechat-Favorite-3.0.1.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-3.0.1.jar')
 }
 

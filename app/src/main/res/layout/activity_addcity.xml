@@ -69,15 +69,4 @@
             android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"/>
     </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
 </LinearLayout>

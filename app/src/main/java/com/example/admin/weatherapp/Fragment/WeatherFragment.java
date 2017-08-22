@@ -108,6 +108,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     private TextView tvSuggestionDrive;
     private TextView tvCity;
     private TextView tvStreet;
+    private ImageView ivDirCity;
 
 
     private static WeatherService weatherService = null;
@@ -249,21 +250,14 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
         tvCity = (TextView)view.findViewById(R.id.tv_city);
         tvStreet = (TextView)view.findViewById(R.id.tv_street);
+        ivDirCity = (ImageView)view.findViewById(R.id.iv_dir_city);
 
-        tvCity.setOnClickListener(new View.OnClickListener() {
+        ivDirCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 initLBS();
             }
         });
-
-        tvStreet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initLBS();
-            }
-        });
-
         return view;
     }
 
@@ -305,9 +299,6 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
             this.tvStreet.setText(this.locationDetail);
             initialWeather();
         }
-
-
-
     }
 
     private void initialWeather(){
@@ -375,7 +366,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
                 public void run() {
                     sweetAlertDialog.cancel();
                 }
-            },1200);
+            },1500);
 
             locationSuccess(aMapLocation);
         }else {

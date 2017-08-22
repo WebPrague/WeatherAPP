@@ -134,10 +134,10 @@ public class MainActivity extends BaseActivity {
         //initialDB();
     }
 
+
+
     private void initialDB(){
         DbManager db = x.getDb(daoConfig);
-
-
         try{
             db.findAll(WeatherCity.class);
         }catch (Exception e){
@@ -156,12 +156,8 @@ public class MainActivity extends BaseActivity {
 
             }
         }
-
-
         WeatherCity weatherCity = new WeatherCity();
         weatherCity.setTmp("666");
-
-
         try {
             db.save(weatherCity);
         } catch (DbException e) {

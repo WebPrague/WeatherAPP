@@ -48,6 +48,12 @@
                 android:textColor="#ffffff"
                 android:textSize="17sp"
                 />
+            <ImageView
+                android:id="@+id/iv_dir_city"
+                android:layout_marginLeft="5dp"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@drawable/dir_city"/>
 
         </LinearLayout>
 

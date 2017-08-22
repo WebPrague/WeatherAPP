@@ -20,7 +20,7 @@
             android:layout_marginBottom="13dp"
             android:textColor="#efeeee"
             android:textSize="18sp"
-            android:text="趣天气"/>
+            android:text="铁锅天气"/>
 
     </LinearLayout>
 
@@ -122,7 +122,8 @@
                 android:layout_height="30dp"
                 android:src="@drawable/share"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_share_weather"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
@@ -150,7 +151,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/phone_menu"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
@@ -178,7 +179,8 @@
                 android:layout_height="30dp"
                 android:src="@drawable/weather_wiki"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_weather_wiki"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
@@ -206,7 +208,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/help"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
@@ -238,7 +240,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/about"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
