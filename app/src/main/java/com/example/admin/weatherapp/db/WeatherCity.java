@@ -11,11 +11,12 @@ public class WeatherCity {
     @Column(name = "id", isId = true, autoGen = true)
     private int id;
 
+    @Column(name = "province")
+    private String province;
+
     @Column(name = "city")
     private String city;
 
-    @Column(name = "remark")
-    private String remark;
 
     @Column(name = "airQuality")
     private String airQuality;
@@ -51,12 +52,12 @@ public class WeatherCity {
         this.city = city;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getProvince() {
+        return province;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getAirQuality() {

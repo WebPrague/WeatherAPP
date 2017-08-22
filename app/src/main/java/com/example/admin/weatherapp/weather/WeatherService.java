@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.admin.weatherapp.Configuration;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -127,4 +128,27 @@ public class WeatherService {
             }
         }).start();
     }
+
+    private Weather weather;
+    public Weather getSyncWeatherFromHeFeng(final String nowCity){
+        try {
+            String url = Configuration.HEFENG_URL + "?city=" + nowCity + "&key=" + Configuration.HEFENG_KEY;
+            Request request = new Request.Builder().url(url).build();
+            Response response = client.newCall(request).execute();
+
+            String body = response.body().string();
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(body);
+            if (jsonObject.get("HeWeather5").getAsJsonArray().size() > 0){
+                String heWeather5 = jsonObject.get("HeWeather5").getAsJsonArray().get(0).getAsJsonObject().toString();
+                Weather weather = new Gson().fromJson(heWeather5, Weather.class);
+                return weather;
+            }else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 }
