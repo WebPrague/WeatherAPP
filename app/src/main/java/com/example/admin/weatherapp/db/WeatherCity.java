@@ -30,8 +30,11 @@ public class WeatherCity {
     @Column(name = "tmp")
     private String tmp;
 
-    @Column(name = "tmpMaxMin")
-    private String tmpMaxMin;
+    @Column(name = "tmpMax")
+    private String tmpMax;
+
+    @Column(name = "tmpMin")
+    private String tmpMin;
 
     @Column(name ="condCode")
     private int condCode;
@@ -92,12 +95,20 @@ public class WeatherCity {
         this.tmp = tmp;
     }
 
-    public String getTmpMaxMin() {
-        return tmpMaxMin;
+    public String getTmpMax() {
+        return tmpMax;
     }
 
-    public void setTmpMaxMin(String tmpMaxMin) {
-        this.tmpMaxMin = tmpMaxMin;
+    public void setTmpMax(String tmpMax) {
+        this.tmpMax = tmpMax;
+    }
+
+    public String getTmpMin() {
+        return tmpMin;
+    }
+
+    public void setTmpMin(String tmpMin) {
+        this.tmpMin = tmpMin;
     }
 
     public int getCondCode() {

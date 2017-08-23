@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:id="@+id/layout"
+    android:background="@android:color/transparent"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#5e5e5e"
+            android:textSize="60dp"
+            android:text="19°"/>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txtMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="阴"
+                android:textSize="12sp"
+                android:textColor="#5e5e5e"/>
+            <TextView
+                android:id="@+id/txtWeekDay"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="高功路"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_weight="1"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:src="@drawable/widget"/>
+
+</LinearLayout>

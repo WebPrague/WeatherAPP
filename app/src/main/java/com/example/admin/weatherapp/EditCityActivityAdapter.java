@@ -7,18 +7,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.weather.Weather;
+import com.example.admin.weatherapp.weather.WeatherService;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 import java.util.List;
 
 /**
  * Created by admin on 2017/8/17.
  */
-
 public class EditCityActivityAdapter extends RecyclerView.Adapter<EditCityActivityAdapter.ViewHolder> {
 
-    private List<EditCity> meditCityList;
+    public interface OnCityDeletedListener{
+        public void onCityDeleted(int cityId);
+    }
 
-    public EditCityActivityAdapter(List<EditCity> meditCityList) {
-        this.meditCityList = meditCityList;
+    private List<WeatherCity> weatherCityList;
+    private OnCityDeletedListener onCityDeletedListener;
+    public EditCityActivityAdapter(List<WeatherCity> weatherCityList, OnCityDeletedListener onCityDeletedListener) {
+        this.weatherCityList = weatherCityList;
+        this.onCityDeletedListener = onCityDeletedListener;
     }
 
     @Override
@@ -31,20 +42,32 @@ public class EditCityActivityAdapter extends RecyclerView.Adapter<EditCityActivi
         return holder;
     }
 
+    ImageOptions imageOptions = new ImageOptions.Builder()
+            // 加载中或错误图片的ScaleType
+            .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+            // 默认自动适应大小
+            // .setSize(...)
+            .setIgnoreGif(true)
+            // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
+            .setUseMemCache(true)
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //数据
-        EditCity editCity = meditCityList.get(position);
-        holder.editCityDetail.setText(editCity.getEdit_city_detail());
-        holder.editCityProvince.setText(editCity.getEdit_city_province());
-        holder.editDeleteCity.setImageResource(editCity.getEdit_delete_imageid());
+        final WeatherCity weatherCity = weatherCityList.get(position);
+        holder.editCityDetail.setText(weatherCity.getCity());
+        holder.editCityProvince.setText(weatherCity.getProvince());
+       //  holder.editDeleteCity.setImageResource(weatherCity.getEdit_delete_imageid());
+       // x.image().bind(holder.e, "assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(weatherCity.getCondCode()) + ".png", imageOptions);
 
         holder.editDeleteCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meditCityList.remove(position);
+                onCityDeletedListener.onCityDeleted(weatherCityList.get(position).getId());
+                weatherCityList.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(0,meditCityList.size());
+                notifyItemRangeChanged(0,weatherCityList.size());
             }
         });
 
@@ -52,7 +75,7 @@ public class EditCityActivityAdapter extends RecyclerView.Adapter<EditCityActivi
 
     @Override
     public int getItemCount() {
-        return meditCityList.size();
+        return weatherCityList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,8 +85,6 @@ public class EditCityActivityAdapter extends RecyclerView.Adapter<EditCityActivi
         TextView editCityProvince;
         View editCityView;
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             editCityView = itemView;
@@ -72,6 +93,5 @@ public class EditCityActivityAdapter extends RecyclerView.Adapter<EditCityActivi
             editDeleteCity = (ImageView)itemView.findViewById(R.id.iv_delete_city);
         }
     }
-
 
 }

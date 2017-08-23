@@ -2,6 +2,7 @@ package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -111,6 +112,10 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     private ImageView ivDirCity;
 
 
+
+    private AddCityActivity.CitySelectedBroadcastReceiver citySelectedBroadcastReceiver;
+
+    //天气相关
     private static WeatherService weatherService = null;
     public static Weather weather;
 
@@ -289,6 +294,12 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //天气服务
+        weatherService = new WeatherService();
+
+
+
+
 
         getLocationFromLocal();
         getLocationDetailFromLocal();
@@ -300,6 +311,12 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
             initialWeather();
         }
     }
+
+
+
+
+
+
 
     private void initialWeather(){
         //赋值控件变量

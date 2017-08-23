@@ -1,13 +1,18 @@
 package com.example.admin.weatherapp;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.weather.Weather;
+import com.example.admin.weatherapp.weather.WeatherService;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -16,9 +21,26 @@ import java.util.List;
  */
 
 public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivityAdapter.ViewHolder> {
-    private List<CityWeather> mcityWeatherList;
 
-    public AddCityActivityAdapter(List<CityWeather> mcityWeatherList) {
+    public static interface OnAddCityClickListener{
+        public void onAddCityClick(String city);
+    }
+    public OnAddCityClickListener onAddCityClickListener;
+
+    private List<WeatherCity> mcityWeatherList;
+
+    ImageOptions imageOptions = new ImageOptions.Builder()
+            // 加载中或错误图片的ScaleType
+            .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+            // 默认自动适应大小
+            // .setSize(...)
+            .setIgnoreGif(true)
+            // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
+            .setUseMemCache(true)
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
+
+    public AddCityActivityAdapter(List<WeatherCity> mcityWeatherList, OnAddCityClickListener onAddCityClickListener) {
+        this.onAddCityClickListener = onAddCityClickListener;
         this.mcityWeatherList = mcityWeatherList;
     }
 
@@ -28,6 +50,14 @@ public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivity
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_addcity_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
 
+        holder.cityDetailName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddCityClickListener.onAddCityClick((String) view.getTag());
+            }
+        });
+
+
         return holder;
     }
 
@@ -35,16 +65,19 @@ public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivity
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         //数据
-        CityWeather cityWeather = mcityWeatherList.get(position);
-        holder.cityDetailName.setText(cityWeather.getDetail_city());
-        holder.cityProvince.setText(cityWeather.getProvince());
-        holder.cityWeatherTmpImage.setImageResource(cityWeather.getWeather_imageid());
-        holder.cityWeatherTmp.setText(cityWeather.getCity_weather_tmp());
-        holder.cityQulity.setText("空气"+cityWeather.getCity_qulity());
-        holder.cityShidu.setText("湿度"+cityWeather.getCity_shidu()+"%");
-        holder.cityWind.setText(cityWeather.getCity_wind());
-        holder.cityMaxandMin.setText(cityWeather.getCity_max_tmp()+"°/"+cityWeather.getCity_min_tmp()+"°");
+        WeatherCity weatherCity = mcityWeatherList.get(position);
+        holder.cityDetailName.setText(weatherCity.getCity());
+        holder.cityProvince.setText(weatherCity.getProvince());
 
+        x.image().bind(holder.cityWeatherTmpImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(weatherCity.getCondCode()) + ".png", imageOptions);
+        //holder.cityWeatherTmpImage.setImageResource(cityWeather.getWeather_imageid());
+        holder.cityWeatherTmp.setText(weatherCity.getTmp() + "°");
+        holder.cityQulity.setText("空气"+weatherCity.getAirQuality());
+        holder.cityShidu.setText("湿度"+weatherCity.getHum()+"%");
+        holder.cityWind.setText(weatherCity.getWindDir() );
+        holder.cityMaxandMin.setText(weatherCity.getTmpMax()+"°/"+weatherCity.getTmpMin()+"°");
+
+        holder.cityDetailName.setTag(mcityWeatherList.get(position).getCity());
     }
 
 

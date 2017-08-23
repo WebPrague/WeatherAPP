@@ -12,29 +12,52 @@ import android.widget.Button;
 import com.example.admin.weatherapp.EditCity;
 import com.example.admin.weatherapp.EditCityActivityAdapter;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.weather.Weather;
+
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class EditCityActivity extends BaseActivity {
 
     private Button btnOkEditcity;
     private Button btnCancelcity;
-    private List<EditCity> editCityList = new ArrayList<EditCity>();
+    private List<WeatherCity> weatherCityList = new ArrayList<WeatherCity>();
+    private List<Integer>deletedCityList = new ArrayList<Integer>();
+    private DbManager db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_city);
         initState();
-        initEditCity();
+
+        //Db
+        db = x.getDb(daoConfig);
+
+        try {
+            weatherCityList.addAll(db.findAll(WeatherCity.class));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_editcity_main);
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(layoutManager);
-        EditCityActivityAdapter adapter = new EditCityActivityAdapter(editCityList);
+        EditCityActivityAdapter adapter = new EditCityActivityAdapter(weatherCityList, new EditCityActivityAdapter.OnCityDeletedListener() {
+            @Override
+            public void onCityDeleted(int cityId) {
+                deletedCityList.add(cityId);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         btnOkEditcity = (Button)findViewById(R.id.btn_ok_editcity);
@@ -42,6 +65,13 @@ public class EditCityActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //保存并返回
+                for (int cityId : deletedCityList){
+                    try {
+                        db.deleteById(WeatherCity.class, cityId);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
                 finish();
             }
         });
@@ -50,8 +80,28 @@ public class EditCityActivity extends BaseActivity {
         btnCancelcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                new SweetAlertDialog(EditCityActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("更改尚未保存，您确定要离开吗?")
+                        .setContentText("")
+                        .setCancelText("我再看看")
+                        .setConfirmText("去意已决")
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                                finish();
+                            }
+                        })
+                        .show();
                 //若未进行修改，则直接返回
-                finish();
 
                 //若进行删除操作，则弹出提示框
             }
@@ -69,30 +119,5 @@ public class EditCityActivity extends BaseActivity {
         }
     }
 
-    private void initEditCity(){
-
-        EditCity editCity01 = new EditCity("阿尔山","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity01);
-        EditCity editCity02 = new EditCity("突泉","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity02);
-        EditCity editCity03 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity03);
-        EditCity editCity04 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity04);
-        EditCity editCity05 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity05);
-        EditCity editCity06 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity06);
-        EditCity editCity07 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity07);
-        EditCity editCity08 = new EditCity("五岔沟","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity08);
-        EditCity editCity09 = new EditCity("突泉","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity09);
-        EditCity editCity10 = new EditCity("突泉","乌兰浩特，内蒙古",R.drawable.delete_city);
-        editCityList.add(editCity10);
-
-
-    }
 
 }

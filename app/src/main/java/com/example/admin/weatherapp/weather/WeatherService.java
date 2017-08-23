@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.example.admin.weatherapp.Configuration;
+import com.example.admin.weatherapp.UI.AddCityActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -128,6 +129,7 @@ public class WeatherService {
             }
         }).start();
     }
+
 
     private Weather weather;
     public Weather getSyncWeatherFromHeFeng(final String nowCity){

@@ -67,5 +67,6 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Core-3.0.1.jar')
     compile files('libs/ShareSDK-Wechat-Favorite-3.0.1.jar')
     compile files('libs/ShareSDK-Wechat-Moments-3.0.1.jar')
+    compile files('libs/mpandroidchartlibrary-2-1-3.jar')
 }
 

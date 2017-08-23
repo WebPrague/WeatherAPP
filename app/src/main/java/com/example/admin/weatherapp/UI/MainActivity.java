@@ -12,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.admin.weatherapp.CityRepo;
 import com.example.admin.weatherapp.Fragment.MeFragment;
 import com.example.admin.weatherapp.Fragment.ViewFragment;
 import com.example.admin.weatherapp.Fragment.WeatherFragment;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.db.CityForecast;
 import com.example.admin.weatherapp.db.WeatherCity;
 import com.example.admin.weatherapp.weather.Weather;
 
@@ -23,6 +25,7 @@ import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -131,8 +134,88 @@ public class MainActivity extends BaseActivity {
         });
         setDefaultFragment();
 
+        //初始化12个城市
+        //initialTestDB();
         //initialDB();
     }
+
+    private void initialTestDB(){
+
+        List<CityForecast> initCities = new ArrayList<CityForecast>();
+
+        CityForecast cityForecast01 = new CityForecast();
+        cityForecast01.cityName = "沈阳市";
+        cityForecast01.provinceName = "辽宁省";
+        initCities.add(cityForecast01);
+
+        CityForecast cityForecast02 = new CityForecast();
+        cityForecast02.cityName = "大连市";
+        cityForecast02.provinceName = "辽宁省";
+        initCities.add(cityForecast02);
+
+        CityForecast cityForecast03 = new CityForecast();
+        cityForecast03.cityName = "鞍山市";
+        cityForecast03.provinceName = "辽宁省";
+        initCities.add(cityForecast03);
+
+        CityForecast cityForecast04 = new CityForecast();
+        cityForecast04.cityName = "抚顺市";
+        cityForecast04.provinceName = "辽宁省";
+        initCities.add(cityForecast04);
+
+        CityForecast cityForecast05 = new CityForecast();
+        cityForecast05.cityName = "本溪市";
+        cityForecast05.provinceName = "辽宁省";
+        initCities.add(cityForecast05);
+
+        CityForecast cityForecast06 = new CityForecast();
+        cityForecast06.cityName = "丹东市";
+        cityForecast06.provinceName = "辽宁省";
+        initCities.add(cityForecast06);
+
+        CityForecast cityForecast07 = new CityForecast();
+        cityForecast07.cityName = "锦州市";
+        cityForecast07.provinceName = "辽宁省";
+        initCities.add(cityForecast07);
+
+        CityForecast cityForecast08 = new CityForecast();
+        cityForecast08.cityName = "营口市";
+        cityForecast08.provinceName = "辽宁省";
+        initCities.add(cityForecast08);
+
+        CityForecast cityForecast09 = new CityForecast();
+        cityForecast09.cityName = "辽阳市";
+        cityForecast09.provinceName = "辽宁省";
+        initCities.add(cityForecast09);
+
+        CityForecast cityForecast10 = new CityForecast();
+        cityForecast10.cityName = "盘锦市";
+        cityForecast10.provinceName = "辽宁省";
+        initCities.add(cityForecast10);
+
+        CityForecast cityForecast11 = new CityForecast();
+        cityForecast11.cityName = "铁岭市";
+        cityForecast11.provinceName = "辽宁省";
+        initCities.add(cityForecast11);
+
+        CityForecast cityForecast12 = new CityForecast();
+        cityForecast12.cityName = "朝阳市";
+        cityForecast12.provinceName = "辽宁省";
+        initCities.add(cityForecast12);
+
+
+        CityRepo repo = new CityRepo(this);
+
+        for (CityForecast cityForecast: initCities){
+            repo.insert(cityForecast);
+        }
+//        cityForecast.cityName = "沈阳市";
+//        String testid = "";
+//        testid = String.valueOf(repo.insert(cityForecast));
+//        Toast.makeText(MainActivity.this, testid,Toast.LENGTH_LONG).show();
+
+    }
+
 
 
 

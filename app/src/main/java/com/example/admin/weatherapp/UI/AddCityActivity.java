@@ -1,6 +1,10 @@
 package com.example.admin.weatherapp.UI;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,13 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.weatherapp.AddCityActivityAdapter;
-import com.example.admin.weatherapp.CityWeather;
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
 
-import org.json.JSONArray;
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
@@ -22,6 +28,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by admin on 2017/8/16.
@@ -31,8 +39,9 @@ public class AddCityActivity extends BaseActivity {
     private ImageView ivBackWeather;
     private ImageView ivEditCity;
     private ImageView ivAddNewCity;
-    private List<CityWeather> cityWeatherList = new ArrayList<CityWeather>();
-
+    private TextView tvCity;
+    private List<WeatherCity> weatherCityList = new ArrayList<WeatherCity>();
+    private AddCityActivityAdapter addCityActivityAdapter;
 
     //数据库
     private DbManager db;
@@ -40,6 +49,7 @@ public class AddCityActivity extends BaseActivity {
     //天气相关
     private WeatherService weatherService;
 
+    private CitySelectedBroadcastReceiver citySelectedBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +57,25 @@ public class AddCityActivity extends BaseActivity {
         setContentView(R.layout.activity_addcity);
         initState();
 
-        weatherService = new WeatherService();
-        db = x.getDb(daoConfig);
-
-        initCityWeather();
-
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_addcity_main);
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        //这里后期会处理位置切换广播
-        AddCityActivityAdapter addCityActivityAdapter = new AddCityActivityAdapter(cityWeatherList);
+        addCityActivityAdapter = new AddCityActivityAdapter(weatherCityList, new AddCityActivityAdapter.OnAddCityClickListener() {
+            @Override
+            public void onAddCityClick(String city) {
+
+                //Toast.makeText(AddCityActivity.this,city,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("zhangpeng");
+                intent.putExtra("city",city);
+                sendBroadcast(intent);
+                finish();
+            }
+        });
+
         recyclerView.setAdapter(addCityActivityAdapter);
-
-
         ivBackWeather = (ImageView)findViewById(R.id.iv_back_weather);
         ivBackWeather.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +102,23 @@ public class AddCityActivity extends BaseActivity {
             }
         });
 
+        //天气服务
+        weatherService = new WeatherService();
 
+        //数据库服务
+        db = x.getDb(daoConfig);
 
+        //广播注册
+        IntentFilter intentFilter = new IntentFilter("zhangpeng");
+        citySelectedBroadcastReceiver = new CitySelectedBroadcastReceiver();
+        registerReceiver(citySelectedBroadcastReceiver,intentFilter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(citySelectedBroadcastReceiver);
+        super.onDestroy();
     }
 
     private void initState() {
@@ -101,29 +130,81 @@ public class AddCityActivity extends BaseActivity {
         }
     }
 
-    private void initCityWeather(){
-        CityWeather city01 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city01);
-        CityWeather city02 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city02);
-        CityWeather city03 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city03);
-        CityWeather city04 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city04);
-        CityWeather city05 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city05);
-        CityWeather city06 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city06);
-        CityWeather city07 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city07);
-        CityWeather city08 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city08);
-        CityWeather city09 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city09);
-        CityWeather city10 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city10);
-        CityWeather city11 = new CityWeather("阿尔山","乌兰浩特，内蒙古",R.drawable.qing,"23","优","67","东北风","24","13");
-        cityWeatherList.add(city11);
+
+
+    public class CitySelectedBroadcastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String city = intent.getStringExtra("city");
+//            Toast.makeText(AddCityActivity.this, city, Toast.LENGTH_SHORT).show();
+            final SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(AddCityActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            sweetAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            sweetAlertDialog.setTitleText("Loading");
+            sweetAlertDialog.setCancelable(false);
+            sweetAlertDialog.show();
+            try {
+                if (db.selector(WeatherCity.class).where("city","=",city).findFirst() != null){
+                    new SweetAlertDialog(AddCityActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("这个城市已经被添加过了哦！")
+                            .setContentText("")
+                            .show();
+                    sweetAlertDialog.cancel();
+                }else {
+                    weatherService.getWeather(city, new WeatherService.GetWeatherListener() {
+                        @Override
+                        public void done(Weather weather, Exception e) {
+                            if (e == null){
+                                sweetAlertDialog.cancel();
+                                WeatherCity weatherCity = new WeatherCity();
+                                weatherCity.setCity(city);
+                                weatherCity.setProvince("辽宁省");
+                                weatherCity.setTmp(weather.now.tmp);
+                                weatherCity.setHum(weather.now.hum);
+                                weatherCity.setAirQuality(weather.aqi.city.qlty);
+                                weatherCity.setCondCode(Integer.parseInt(weather.now.cond.code));
+                                weatherCity.setWindDir(weather.now.wind.dir);
+                                weatherCity.setTmpMax(weather.daily_forecast.get(0).tmp.max);
+                                weatherCity.setTmpMin(weather.daily_forecast.get(0).tmp.min);
+
+                                try {
+                                    db.save(weatherCity);
+                                    SweetAlertDialog successSweetAlertDialog = new SweetAlertDialog(AddCityActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("城市添加成功")
+                                            .setContentText("");
+                                    weatherCityList.add(weatherCity);
+                                    addCityActivityAdapter.notifyDataSetChanged();
+                                    successSweetAlertDialog.show();
+                                }catch (Exception e1){
+                                    e.printStackTrace();
+                                }
+                            }else {
+                                new SweetAlertDialog(AddCityActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("城市添加失败")
+                                        .setContentText(" ")
+                                        .show();
+                            }
+                        }
+                    });
+                }
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            List<WeatherCity>weatherCities = db.findAll(WeatherCity.class);
+            weatherCityList.removeAll(weatherCityList);
+            weatherCityList.addAll(weatherCities);
+            addCityActivityAdapter.notifyDataSetChanged();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
 }
