@@ -54,6 +54,21 @@ public class WeatherLineView  extends BaseActivity{
         });
     }
 
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     private void initWeatherForecast(){
         Weather weather = WeatherFragment.weather;
         for (DailyForecast dailyForecast : weather.daily_forecast){

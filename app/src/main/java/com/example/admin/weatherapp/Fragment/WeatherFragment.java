@@ -1,6 +1,8 @@
 package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -28,6 +30,8 @@ import com.example.admin.weatherapp.HourForecastAdapter;
 import com.example.admin.weatherapp.UI.AddCityActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.WeatherForecast;
+import com.example.admin.weatherapp.view.IndexHorizontalScrollView;
+import com.example.admin.weatherapp.view.Today24HourView;
 import com.example.admin.weatherapp.weather.DailyForecast;
 import com.example.admin.weatherapp.weather.HourlyForecast;
 import com.example.admin.weatherapp.weather.Weather;
@@ -111,6 +115,8 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     private TextView tvStreet;
     private ImageView ivDirCity;
 
+    private IndexHorizontalScrollView indexHorizontalScrollView;
+    private Today24HourView today24HourView;
 
 
     private AddCityActivity.CitySelectedBroadcastReceiver citySelectedBroadcastReceiver;
@@ -198,6 +204,21 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
     }
 
+    private BroadcastReceiver broadcastReceiver;
+
+    @Override
+    public void onAttach(Context context) {
+
+
+
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -257,6 +278,10 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
         tvStreet = (TextView)view.findViewById(R.id.tv_street);
         ivDirCity = (ImageView)view.findViewById(R.id.iv_dir_city);
 
+        indexHorizontalScrollView = (IndexHorizontalScrollView) view.findViewById(R.id.index_horizontal_scrollView);
+        today24HourView = (Today24HourView) view.findViewById(R.id.today_24_hour_view);
+        indexHorizontalScrollView.setToday24HourView(today24HourView);
+
         ivDirCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,6 +310,24 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
         //Integer.parseInt(hourlyForecast.cond.code)
 
     }
+
+    private void updateHourlyForecastNew(List<HourlyForecast> hourlyForecasts){
+        int temp[] = new int[24];
+        int weatherRes[] = new int[24];
+        for (int i = 0 ; i < hourlyForecasts.size(); i ++){
+            temp[i] = Integer.parseInt(hourlyForecasts.get(i).tmp);
+            weatherRes[i] = WeatherService.heFengToXinZhiMapping.get(Integer.parseInt(hourlyForecasts.get(i).cond.code));
+        }
+        int timeStart = 0;
+        try {
+            timeStart = Integer.parseInt(new SimpleDateFormat("H").format(new Date(System.currentTimeMillis())));
+        }catch (Exception e){
+
+        }
+        this.today24HourView.setData(temp, weatherRes, timeStart);
+    }
+
+
     public String getFormatTime(String date){
         return date.substring(10,16);
     }
@@ -294,13 +337,25 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        IntentFilter intentFilter = new IntentFilter("hupeng");
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String city = intent.getStringExtra("city");
+                tvCity.setText(city);
+                tvStreet.setText("");
+                location = city;
+//                locationDetail = aMapLocation.getStreet();
+
+                initialWeather();
+            }
+        };
+
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+
         //天气服务
         weatherService = new WeatherService();
-
-
-
-
-
         getLocationFromLocal();
         getLocationDetailFromLocal();
         if (this.location == null){
@@ -311,13 +366,6 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
             initialWeather();
         }
     }
-
-
-
-
-
-
-
     private void initialWeather(){
         //赋值控件变量
         if (weatherService == null){
@@ -361,6 +409,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
                     x.image().bind(ivAfterImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(Integer.parseInt(weather.daily_forecast.get(2).cond.code_d)) + ".png", imageOptions);
                     initHourForecast();
+                    updateHourlyForecastNew(weather.hourly_forecast);
                 }else {
                     Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
                 }

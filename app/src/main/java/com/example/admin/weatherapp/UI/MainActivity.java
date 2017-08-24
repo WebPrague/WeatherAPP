@@ -2,14 +2,21 @@ package com.example.admin.weatherapp.UI;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.admin.weatherapp.CityRepo;
@@ -19,6 +26,7 @@ import com.example.admin.weatherapp.Fragment.WeatherFragment;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.db.CityForecast;
 import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.util.SpUtil;
 import com.example.admin.weatherapp.weather.Weather;
 
 import org.xutils.DbManager;
@@ -47,6 +55,13 @@ public class MainActivity extends BaseActivity {
     private ImageView imageView3;
 
 
+    private WindowManager mWindowManager = null;
+    private View mNightView = null;
+    private WindowManager.LayoutParams mNightViewParam;
+    private boolean mIsAddedView;
+
+    private BroadcastReceiver nightModeBroadcastReceiver;
+
 
     public void initial(){
         weatherFragment = new WeatherFragment();
@@ -64,7 +79,6 @@ public class MainActivity extends BaseActivity {
         imageView1 = (ImageView)findViewById(R.id.imageview_weather);
         imageView2 = (ImageView)findViewById(R.id.imageview_view);
         imageView3 = (ImageView)findViewById(R.id.imageview_me);
-
 
 
         linearLayout_weather.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +304,24 @@ public class MainActivity extends BaseActivity {
         initial();
         //Toast.makeText(MainActivity.this,"hello world", Toast.LENGTH_LONG).show();
 
+        //注册广播
+        IntentFilter intentFilter = new IntentFilter("ye_jian_guang_bo_by_hp");
+        nightModeBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                boolean b = intent.getBooleanExtra("is_checked",false);
 
+                if (b){
+                    SpUtil.getinstance(MainActivity.this).setReaderModeCode(1);
+                    changeToNight();
+                }else {
+                    SpUtil.getinstance(MainActivity.this).setReaderModeCode(0);
+                    changeToDay();
+                }
+
+            }
+        };
+        registerReceiver(nightModeBroadcastReceiver, intentFilter);
     }
 
 
@@ -300,6 +331,64 @@ public class MainActivity extends BaseActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    //夜间模式代码
+
+
+    @Override
+    protected void initView() {
+
+
+    }
+
+    @Override
+    protected void initData() {
+        // 主Activity中初始化数据  加载数据的操作都放在这里
+
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        changeToDay();
+
+        unregisterReceiver(nightModeBroadcastReceiver);
+        super.onDestroy();
+    }
+
+
+    @Override
+    public void changeToNight() {
+        if (mIsAddedView == true)
+            return;
+        mNightViewParam = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSPARENT);
+        mWindowManager = getWindowManager();
+        mNightView = new View(this);
+        mNightView.setBackgroundResource(R.color.colorNight);
+        mWindowManager.addView(mNightView, mNightViewParam);
+        mIsAddedView = true;
+    }
+
+    //设置白天模式
+    @Override
+    public void changeToDay(){
+
+        if (mIsAddedView && mNightView!=null) {
+            mWindowManager.removeViewImmediate(mNightView);
+            mWindowManager = null;
+            mNightView = null;
+            mIsAddedView=false;
         }
     }
 }

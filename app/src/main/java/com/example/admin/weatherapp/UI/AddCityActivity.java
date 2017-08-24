@@ -68,7 +68,7 @@ public class AddCityActivity extends BaseActivity {
 
                 //Toast.makeText(AddCityActivity.this,city,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
-                intent.setAction("zhangpeng");
+                intent.setAction("hupeng");
                 intent.putExtra("city",city);
                 sendBroadcast(intent);
                 finish();
@@ -206,5 +206,20 @@ public class AddCityActivity extends BaseActivity {
         } catch (DbException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 }

@@ -1,16 +1,24 @@
 package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.admin.weatherapp.R;
+import com.example.admin.weatherapp.UI.MainActivity;
 import com.example.admin.weatherapp.UI.WeatherWikiActivity;
+import com.example.admin.weatherapp.util.SpUtil;
 import com.mob.commons.SHARESDK;
 
 import org.w3c.dom.Text;
@@ -22,11 +30,15 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * Created by admin on 2017/8/11.
  */
 
-public class MeFragment extends Fragment {
+public class MeFragment extends Fragment  {
+
 
     private TextView tvShareWeather;
     private TextView tvWeatherWiki;
     private static String APP_KEY = "205d30da23dce";
+    private Switch mSwitch;
+
+
 
 
     @Override
@@ -54,10 +66,43 @@ public class MeFragment extends Fragment {
             }
         });
 
+        mSwitch = (Switch) view.findViewById(R.id.switch1);
 
 
         return view;
     }
+
+
+    /**
+     * 设置监听
+     * */
+    private void setListener(){
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Intent intent = new Intent();
+                intent.setAction("ye_jian_guang_bo_by_hp");
+                intent.putExtra("is_checked", b);
+                getActivity().sendBroadcast(intent);
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setListener();
+
+        if (SpUtil.getinstance((MainActivity)getActivity()).getReaderModeCode() == 1){
+            mSwitch.setChecked(true);
+        }
+
+    }
+
+    MainActivity mainActivity = (MainActivity)getActivity();
+
+
 
     public void shareSDK(View view){
         shareToQQByShareSDK();
@@ -87,5 +132,6 @@ public class MeFragment extends Fragment {
         // 启动分享GUI
         oks.show(this.getActivity());
     }
+
 
 }

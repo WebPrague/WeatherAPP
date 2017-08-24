@@ -55,6 +55,21 @@ public class WelcomeActivity extends BaseActivity {
 //        myDBHelper.close();
     }
 
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
 
     private void initialDB(){
         dbManager = x.getDb(daoConfig);

@@ -37,20 +37,16 @@ public class EditCityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_city);
         initState();
-
         //Db
         db = x.getDb(daoConfig);
-
         try {
             weatherCityList.addAll(db.findAll(WeatherCity.class));
         } catch (DbException e) {
             e.printStackTrace();
         }
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_editcity_main);
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-
         recyclerView.setLayoutManager(layoutManager);
         EditCityActivityAdapter adapter = new EditCityActivityAdapter(weatherCityList, new EditCityActivityAdapter.OnCityDeletedListener() {
             @Override
@@ -80,33 +76,46 @@ public class EditCityActivity extends BaseActivity {
         btnCancelcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                new SweetAlertDialog(EditCityActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("更改尚未保存，您确定要离开吗?")
-                        .setContentText("")
-                        .setCancelText("我再看看")
-                        .setConfirmText("去意已决")
-                        .showCancelButton(true)
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.cancel();
-                            }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.cancel();
-                                finish();
-                            }
-                        })
-                        .show();
-                //若未进行修改，则直接返回
-
-                //若进行删除操作，则弹出提示框
+                if (deletedCityList.size() != 0){
+                    new SweetAlertDialog(EditCityActivity.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("更改尚未保存，您确定要离开吗?")
+                            .setContentText("")
+                            .setCancelText("我再看看")
+                            .setConfirmText("去意已决")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.cancel();
+                                }
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.cancel();
+                                    finish();
+                                }
+                            })
+                            .show();
+                }else {
+                    finish();
+                }
             }
         });
+    }
 
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void setListener() {
 
     }
 
