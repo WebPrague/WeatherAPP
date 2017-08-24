@@ -158,7 +158,7 @@ public class Today24HourView extends View{
 
         windyBoxPaint = new Paint();
         windyBoxPaint.setTextSize(1);
-        windyBoxPaint.setColor(new Color().GRAY);
+        windyBoxPaint.setColor(Color.parseColor("#7da6dc"));
         windyBoxPaint.setAlpha(windyBoxAlpha);
         windyBoxPaint.setAntiAlias(true);
 
@@ -251,7 +251,8 @@ public class Today24HourView extends View{
             onDrawText(canvas, i);
         }
         //底部水平的白线
-        linePaint.setColor(new Color().DKGRAY);
+        linePaint.setColor(Color.parseColor("#ffffff"));
+
         canvas.drawLine(0, mHeight - bottomTextHeight, mWidth, mHeight - bottomTextHeight, linePaint);
         //中间温度的虚线
 //        Path path1 = new Path();

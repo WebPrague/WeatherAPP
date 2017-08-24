@@ -9,5 +9,5 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/welcome"/>
+        android:src="@drawable/welcome1"/>
 </LinearLayout>

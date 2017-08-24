@@ -208,9 +208,6 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
     @Override
     public void onAttach(Context context) {
-
-
-
         super.onAttach(context);
     }
 
@@ -306,9 +303,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
             hourForcastList.add(hourForcast);
         }
-
         //Integer.parseInt(hourlyForecast.cond.code)
-
     }
 
     private void updateHourlyForecastNew(List<HourlyForecast> hourlyForecasts){
@@ -337,22 +332,23 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        IntentFilter intentFilter = new IntentFilter("hupeng");
 
+        IntentFilter intentFilter = new IntentFilter("hupeng");
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 String city = intent.getStringExtra("city");
                 tvCity.setText(city);
                 tvStreet.setText("");
                 location = city;
-//                locationDetail = aMapLocation.getStreet();
-
+                // locationDetail = aMapLocation.getStreet();
                 initialWeather();
             }
         };
-
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
+
+
 
         //天气服务
         weatherService = new WeatherService();
@@ -420,8 +416,6 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         pDialog.cancel();
-
-
         if (aMapLocation.getErrorCode() == 0){
             final SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("定位成功")

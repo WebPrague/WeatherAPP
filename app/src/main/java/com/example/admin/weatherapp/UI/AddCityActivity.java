@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.admin.weatherapp.AddCityActivityAdapter;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.db.WeatherCity;
+import com.example.admin.weatherapp.util.SpUtil;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
 
@@ -43,6 +45,14 @@ public class AddCityActivity extends BaseActivity {
     private List<WeatherCity> weatherCityList = new ArrayList<WeatherCity>();
     private AddCityActivityAdapter addCityActivityAdapter;
 
+    private WindowManager mWindowManager = null;
+    private View mNightView = null;
+    private WindowManager.LayoutParams mNightViewParam;
+    private boolean mIsAddedView;
+
+    private BroadcastReceiver nightModeBroadcastReceiver;
+
+
     //数据库
     private DbManager db;
 
@@ -57,15 +67,35 @@ public class AddCityActivity extends BaseActivity {
         setContentView(R.layout.activity_addcity);
         initState();
 
+        //注册广播
+        IntentFilter intentFilter_addactivity = new IntentFilter("ye_jian_guang_bo_by_hp");
+        nightModeBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                boolean b = intent.getBooleanExtra("is_checked",false);
+
+                if (b){
+                    SpUtil.getinstance(AddCityActivity.this).setReaderModeCode(1);
+                    changeToNight();
+                }else {
+                    SpUtil.getinstance(AddCityActivity.this).setReaderModeCode(0);
+                    changeToDay();
+                }
+
+            }
+        };
+        registerReceiver(nightModeBroadcastReceiver, intentFilter_addactivity);
+
+
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv_addcity_main);
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+
         addCityActivityAdapter = new AddCityActivityAdapter(weatherCityList, new AddCityActivityAdapter.OnAddCityClickListener() {
             @Override
             public void onAddCityClick(String city) {
-
                 //Toast.makeText(AddCityActivity.this,city,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setAction("hupeng");
@@ -74,6 +104,7 @@ public class AddCityActivity extends BaseActivity {
                 finish();
             }
         });
+
 
         recyclerView.setAdapter(addCityActivityAdapter);
         ivBackWeather = (ImageView)findViewById(R.id.iv_back_weather);
@@ -117,6 +148,8 @@ public class AddCityActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        changeToDay();
+        unregisterReceiver(nightModeBroadcastReceiver);
         unregisterReceiver(citySelectedBroadcastReceiver);
         super.onDestroy();
     }
@@ -222,4 +255,35 @@ public class AddCityActivity extends BaseActivity {
     protected void setListener() {
 
     }
+
+
+
+    @Override
+    public void changeToNight() {
+        if (mIsAddedView == true)
+            return;
+        mNightViewParam = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSPARENT);
+        mWindowManager = getWindowManager();
+        mNightView = new View(this);
+        mNightView.setBackgroundResource(R.color.colorNight);
+        mWindowManager.addView(mNightView, mNightViewParam);
+        mIsAddedView = true;
+    }
+
+    //设置白天模式
+    @Override
+    public void changeToDay(){
+
+        if (mIsAddedView && mNightView!=null) {
+            mWindowManager.removeViewImmediate(mNightView);
+            mWindowManager = null;
+            mNightView = null;
+            mIsAddedView=false;
+        }
+    }
+
+
 }

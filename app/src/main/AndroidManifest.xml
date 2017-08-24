@@ -41,7 +41,7 @@
 
         <activity
             android:name=".UI.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".UI.WelcomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -90,21 +90,45 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".UI.SearchCityActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".UI.WeatherWikiActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <receiver android:name=".WeatherAppWidget">
+        <receiver android:name=".widget.WeatherAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="cn.com.karl.widget.click"></action>
+                <action android:name="cn.com.karl.widget.click" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather_app_widget_info" />
         </receiver>
+
+        <!-- <service android:name=".widget.GetWeatherService" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.appwidget.action.EXAMPLE_APP_WIDGET_SERVICE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <activity android:name=".QQLoginActivity"></activity>
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent101424928" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

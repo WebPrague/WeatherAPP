@@ -123,7 +123,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mIsAddedView = true;
     }
 
-
     //设置白天模式
     public void changeToDay(){
 
@@ -134,8 +133,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             mIsAddedView=false;
         }
     }
-
-
     /**
      * 设置夜间模式 添加view是否可用
      * 必须在super.onCreate(savedInstanceState);之前调用
@@ -167,7 +164,4 @@ public abstract class BaseActivity extends AppCompatActivity {
                     // db.dropDb();
                 }
             });
-
-
-
 }

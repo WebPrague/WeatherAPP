@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.admin.weatherapp.QQLoginActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.UI.MainActivity;
 import com.example.admin.weatherapp.UI.WeatherWikiActivity;
@@ -37,6 +38,7 @@ public class MeFragment extends Fragment  {
     private TextView tvWeatherWiki;
     private static String APP_KEY = "205d30da23dce";
     private Switch mSwitch;
+    private TextView tvQQLogin;
 
 
 
@@ -67,6 +69,17 @@ public class MeFragment extends Fragment  {
         });
 
         mSwitch = (Switch) view.findViewById(R.id.switch1);
+
+        tvQQLogin = (TextView)view.findViewById(R.id.tv_qq_login);
+        tvQQLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //qqLogin();
+                Intent intent = new Intent(getActivity(),QQLoginActivity.class);
+                 startActivity(intent);
+            }
+        });
+
 
 
         return view;

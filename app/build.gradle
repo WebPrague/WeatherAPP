@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 repositories {
-    flatDir{
+    flatDir {
         dirs 'libs'
     }
     jcenter()
@@ -12,7 +12,7 @@ repositories {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-    aaptOptions{
+    aaptOptions {
         cruncherEnabled = false
         useNewCruncher = false
     }
@@ -30,8 +30,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDir(['libs'])
         }
     }
@@ -45,12 +45,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'cn.pedant.sweetalert:library:1.3'
     compile files('libs/gson-2.7.jar')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
     compile files('libs/xutils-3.5.0.jar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/MobCommons-2017.0819.1854.jar')
@@ -68,5 +63,12 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Favorite-3.0.1.jar')
     compile files('libs/ShareSDK-Wechat-Moments-3.0.1.jar')
     compile files('libs/mpandroidchartlibrary-2-1-3.jar')
+    compile files('libs/open_sdk_r5793_lite.jar')
+    compile 'cn.pedant.sweetalert:library:1.3'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
 }
+
 

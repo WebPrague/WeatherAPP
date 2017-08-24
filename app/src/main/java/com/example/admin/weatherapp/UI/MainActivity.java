@@ -322,6 +322,8 @@ public class MainActivity extends BaseActivity {
             }
         };
         registerReceiver(nightModeBroadcastReceiver, intentFilter);
+
+
     }
 
 
