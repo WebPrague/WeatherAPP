@@ -2,8 +2,10 @@ package com.example.admin.weatherapp.Fragment;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -12,17 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.weatherapp.QQLoginActivity;
 import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.UI.MainActivity;
 import com.example.admin.weatherapp.UI.WeatherWikiActivity;
 import com.example.admin.weatherapp.util.SpUtil;
+import com.example.admin.weatherapp.weather.WeatherService;
 import com.mob.commons.SHARESDK;
 
 import org.w3c.dom.Text;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -34,13 +41,25 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class MeFragment extends Fragment  {
 
 
+    private TextView tvQQLogout;
     private TextView tvShareWeather;
     private TextView tvWeatherWiki;
     private static String APP_KEY = "205d30da23dce";
     private Switch mSwitch;
     private TextView tvQQLogin;
+    private ImageView ivUserPhoto;
+    private BroadcastReceiver qqBroadcastReceiver;
 
 
+    ImageOptions imageOptions = new ImageOptions.Builder()
+            // 加载中或错误图片的ScaleType
+            .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
+            // 默认自动适应大小
+            // .setSize(...)
+            .setIgnoreGif(true)
+            // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
+            .setUseMemCache(true)
+            .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
 
 
     @Override
@@ -59,6 +78,21 @@ public class MeFragment extends Fragment  {
             }
         });
 
+        tvQQLogout = (TextView)view.findViewById(R.id.tv_qq_logout);
+
+
+        tvQQLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvQQLogin.setText("点击登录");
+                //ivUserPhoto.setBackground(getActivity().getResources().getDrawable(R.drawable.icon_qq));
+                ivUserPhoto.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_qq));
+            }
+        });
+
+
+
+        ivUserPhoto = (ImageView)view.findViewById(R.id.iv_userphoto);
         tvShareWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,8 +113,6 @@ public class MeFragment extends Fragment  {
                  startActivity(intent);
             }
         });
-
-
 
         return view;
     }
@@ -109,13 +141,52 @@ public class MeFragment extends Fragment  {
 
         if (SpUtil.getinstance((MainActivity)getActivity()).getReaderModeCode() == 1){
             mSwitch.setChecked(true);
+
         }
+
+
+
+        IntentFilter intentFilter_qqlogin = new IntentFilter("qq_zhangpeng");
+        qqBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String qqname = intent.getStringExtra("qqName");
+                String qqphotourl = intent.getStringExtra("qqPhotoUrl");
+                tvQQLogin.setText(qqname);
+                tvQQLogout.setVisibility(View.VISIBLE);
+                x.image().bind(ivUserPhoto,qqphotourl, imageOptions);
+                //Toast.makeText(getActivity(),qqname+qqphotourl,Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("config",((MainActivity) getActivity()).MODE_PRIVATE).edit();
+                editor.putString("qqName",qqname);
+                editor.putString("qqPhotoUrl",qqphotourl);
+                editor.commit();
+            }
+        };
+        getActivity().registerReceiver(qqBroadcastReceiver,intentFilter_qqlogin);
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config",((MainActivity) getActivity()).MODE_PRIVATE);
+       String qqName =  sharedPreferences.getString("qqName",null);
+       String qqPhotoUrl =  sharedPreferences.getString("qqPhotoUrl",null);
+
+        if (qqName == null&&qqPhotoUrl == null){
+            tvQQLogout.setVisibility(View.GONE);
+        }else{
+            tvQQLogin.setText(qqName);
+            x.image().bind(ivUserPhoto,qqPhotoUrl, imageOptions);
+        }
+
 
     }
 
+    @Override
+    public void onDestroy() {
+
+        getActivity().unregisterReceiver(qqBroadcastReceiver);
+        super.onDestroy();
+    }
+
     MainActivity mainActivity = (MainActivity)getActivity();
-
-
 
     public void shareSDK(View view){
         shareToQQByShareSDK();
