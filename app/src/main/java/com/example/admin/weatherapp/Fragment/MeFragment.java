@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class MeFragment extends Fragment  {
     private TextView tvQQLogin;
     private ImageView ivUserPhoto;
     private BroadcastReceiver qqBroadcastReceiver;
+    private LinearLayout llQQLogout;
 
 
     ImageOptions imageOptions = new ImageOptions.Builder()
@@ -78,15 +80,24 @@ public class MeFragment extends Fragment  {
             }
         });
 
-        tvQQLogout = (TextView)view.findViewById(R.id.tv_qq_logout);
 
 
-        tvQQLogout.setOnClickListener(new View.OnClickListener() {
+        llQQLogout = (LinearLayout) view.findViewById(R.id.ll_qq_logout);
+
+
+        llQQLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tvQQLogin.setText("点击登录");
                 //ivUserPhoto.setBackground(getActivity().getResources().getDrawable(R.drawable.icon_qq));
                 ivUserPhoto.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.icon_qq));
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("qqName");
+                editor.remove("qqPhotoUrl");
+                editor.commit();
+                llQQLogout.setVisibility(View.GONE);
             }
         });
 
@@ -153,7 +164,7 @@ public class MeFragment extends Fragment  {
                 String qqname = intent.getStringExtra("qqName");
                 String qqphotourl = intent.getStringExtra("qqPhotoUrl");
                 tvQQLogin.setText(qqname);
-                tvQQLogout.setVisibility(View.VISIBLE);
+                llQQLogout.setVisibility(View.VISIBLE);
                 x.image().bind(ivUserPhoto,qqphotourl, imageOptions);
                 //Toast.makeText(getActivity(),qqname+qqphotourl,Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("config",((MainActivity) getActivity()).MODE_PRIVATE).edit();
@@ -170,7 +181,7 @@ public class MeFragment extends Fragment  {
        String qqPhotoUrl =  sharedPreferences.getString("qqPhotoUrl",null);
 
         if (qqName == null&&qqPhotoUrl == null){
-            tvQQLogout.setVisibility(View.GONE);
+            llQQLogout.setVisibility(View.GONE);
         }else{
             tvQQLogin.setText(qqName);
             x.image().bind(ivUserPhoto,qqPhotoUrl, imageOptions);
