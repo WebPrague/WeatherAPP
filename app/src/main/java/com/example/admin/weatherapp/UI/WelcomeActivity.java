@@ -2,6 +2,7 @@ package com.example.admin.weatherapp.UI;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,9 @@ import com.example.admin.weatherapp.R;
 import com.example.admin.weatherapp.db.WeatherCity;
 import com.example.admin.weatherapp.weather.Weather;
 import com.example.admin.weatherapp.weather.WeatherService;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -28,19 +32,30 @@ import java.util.List;
  */
 
 public class WelcomeActivity extends BaseActivity {
-
+    private SimpleDraweeView dvWelcome;
     private WeatherService weatherService;
     private DbManager dbManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        Fresco.initialize(this);
         //隐藏标题栏以及状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /**标题是属于View的，所以窗口所有的修饰部分被隐藏后标题依然有效,需要去掉标题**/
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
+        dvWelcome= (SimpleDraweeView) findViewById(R.id.dv_welcome);
+
+        DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                .setAutoPlayAnimations(true)//自动播放动画
+                .setUri(Uri.parse("asset://com.gz01.baochen.testgif/welcome3.gif"))//路径
+                .build();
+        dvWelcome.setController(draweeController);
+
 
         //天气相关
         weatherService = new WeatherService();
@@ -48,7 +63,7 @@ public class WelcomeActivity extends BaseActivity {
        // initial();
         //数据库相关
         initialDB();
-        handler.sendEmptyMessageDelayed(0,3000);
+        handler.sendEmptyMessageDelayed(0,2200);
 
 //        MyDBHelper myDBHelper = new MyDBHelper(this);
 //        myDBHelper.getReadableDatabase();
