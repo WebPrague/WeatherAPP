@@ -91,8 +91,6 @@ public class AddCityActivity extends BaseActivity {
         //横向
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-
         addCityActivityAdapter = new AddCityActivityAdapter(weatherCityList, new AddCityActivityAdapter.OnAddCityClickListener() {
             @Override
             public void onAddCityClick(String city) {

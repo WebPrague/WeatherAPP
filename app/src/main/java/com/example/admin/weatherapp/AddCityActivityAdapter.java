@@ -56,10 +56,10 @@ public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivity
                 onAddCityClickListener.onAddCityClick((String) view.getTag());
             }
         });
-
-
         return holder;
     }
+
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -68,7 +68,6 @@ public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivity
         WeatherCity weatherCity = mcityWeatherList.get(position);
         holder.cityDetailName.setText(weatherCity.getCity());
         holder.cityProvince.setText(weatherCity.getProvince());
-
         x.image().bind(holder.cityWeatherTmpImage,"assets://weather/" +  WeatherService.heFengToXinZhiMapping.get(weatherCity.getCondCode()) + ".png", imageOptions);
         //holder.cityWeatherTmpImage.setImageResource(cityWeather.getWeather_imageid());
         holder.cityWeatherTmp.setText(weatherCity.getTmp() + "°");
@@ -76,7 +75,6 @@ public class AddCityActivityAdapter extends RecyclerView.Adapter<AddCityActivity
         holder.cityShidu.setText("湿度"+weatherCity.getHum()+"%");
         holder.cityWind.setText(weatherCity.getWindDir() );
         holder.cityMaxandMin.setText(weatherCity.getTmpMax()+"°/"+weatherCity.getTmpMin()+"°");
-
         holder.cityDetailName.setTag(mcityWeatherList.get(position).getCity());
     }
 

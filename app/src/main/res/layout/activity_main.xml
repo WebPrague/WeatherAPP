@@ -76,7 +76,7 @@
                 android:textSize="12dp"
                 android:background="@null"
                 android:textColor="#dbdbdb"
-                android:text="时景"/>
+                android:text="段子"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_me"

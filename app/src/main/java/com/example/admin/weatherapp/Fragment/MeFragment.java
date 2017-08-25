@@ -198,11 +198,9 @@ public class MeFragment extends Fragment  {
     }
 
     MainActivity mainActivity = (MainActivity)getActivity();
-
     public void shareSDK(View view){
         shareToQQByShareSDK();
     }
-
     private void shareToQQByShareSDK(){
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
@@ -213,7 +211,7 @@ public class MeFragment extends Fragment  {
         // titleUrl是标题的网络链接，QQ和QQ空间等使用
         oks.setTitleUrl("http://blog.csdn.net/u013451048");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("功能测试，请自动忽略");
+        oks.setText("铁锅天气，温暖你我");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         oks.setImageUrl("http://avatar.csdn.net/C/3/D/1_u013451048.jpg");

@@ -3,9 +3,57 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button2"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#7da6dc"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="时景" />
+        android:background="#7da6dc"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="13dp"
+            android:textColor="#efeeee"
+            android:textSize="18sp"
+            android:text="铁锅段子"/>
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/demo_swiperefreshlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#f2f1f1"
+            >
+            <TextView
+                android:id="@+id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="#f2f1f1"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_duanzi_main"
+                android:layout_below="@id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="#f2f1f1"/>
+            <TextView
+                android:id="@+id/tv_line_below"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/transparent"/>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

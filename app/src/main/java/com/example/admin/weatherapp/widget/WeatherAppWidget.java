@@ -80,11 +80,10 @@ public class WeatherAppWidget extends AppWidgetProvider {
     }
 
 
-     @Override
-     public void onReceive(Context context, Intent intent) {
+    @Override
+    public void onReceive(Context context, Intent intent) {
 
-     }
+    }
 
 
 }
-
