@@ -34,7 +34,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="915521299f183ed30c04a9fec6216a40">
-            //开发者申请的key
         </meta-data>
 
         <service android:name="com.amap.api.location.APSService" />
@@ -111,7 +110,8 @@
         <!-- <action android:name="android.appwidget.action.EXAMPLE_APP_WIDGET_SERVICE" /> -->
         <!-- </intent-filter> -->
         <!-- </service> -->
-        <activity android:name=".QQLoginActivity"></activity>
+        <activity android:name=".QQLoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
 
         <activity
             android:name="com.tencent.tauth.AuthActivity"
