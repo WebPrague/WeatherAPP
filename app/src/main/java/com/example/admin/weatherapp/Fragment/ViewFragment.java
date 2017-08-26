@@ -25,8 +25,7 @@ import java.util.List;
 
 public class ViewFragment extends Fragment {
 
-    private ImageView ivVoteUp;
-    private ImageView ivVoteDown;
+
     private QsbkService qsbkService = null;
     private DuanziActivityAdapter duanziActivityAdapter;
     private List<QsbkService.Qsbk> qsbkList = new ArrayList<QsbkService.Qsbk>();
@@ -46,8 +45,6 @@ public class ViewFragment extends Fragment {
             }
         });
 
-        ivVoteDown = (ImageView)view.findViewById(R.id.iv_laugh);
-        ivVoteUp = (ImageView)view.findViewById(R.id.iv_shit);
 
 
         return view;

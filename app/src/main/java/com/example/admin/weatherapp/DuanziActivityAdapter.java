@@ -20,7 +20,9 @@ import java.util.List;
 
 public class DuanziActivityAdapter extends RecyclerView.Adapter<DuanziActivityAdapter.ViewHolder> {
 
+
     private List<QsbkService.Qsbk> qsbkList;
+
 
     public DuanziActivityAdapter(List<QsbkService.Qsbk> qsbkList) {
         this.qsbkList = qsbkList;
@@ -31,6 +33,26 @@ public class DuanziActivityAdapter extends RecyclerView.Adapter<DuanziActivityAd
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_duanzi_item,parent,false);
         final DuanziActivityAdapter.ViewHolder holder = new DuanziActivityAdapter.ViewHolder(view);
+        holder.ivVoteUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.ivVoteUp.setImageResource(R.drawable.laugh);
+                holder.ivVoteDown.setImageResource(R.drawable.shit);
+                holder.tvVoteUp.setText((Integer.parseInt(holder.tvVoteUp.getText().toString())+1)+"");
+                holder.tvVoteDown.setText((Integer.parseInt(holder.tvVoteDown.getText().toString())-1)+"");
+
+            }
+        });
+
+        holder.ivVoteDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.ivVoteDown.setImageResource(R.drawable.shit_press);
+                holder.ivVoteUp.setImageResource(R.drawable.laugh_press);
+                holder.tvVoteUp.setText((Integer.parseInt(holder.tvVoteUp.getText().toString())-1)+"");
+                holder.tvVoteDown.setText((Integer.parseInt(holder.tvVoteDown.getText().toString())+1)+"");
+            }
+        });
 
         return holder;
     }
@@ -63,6 +85,8 @@ public class DuanziActivityAdapter extends RecyclerView.Adapter<DuanziActivityAd
        TextView tvDuanzi;
        TextView tvVoteUp;
        TextView tvVoteDown;
+        ImageView ivVoteUp;
+        ImageView ivVoteDown;
        View duanziView;
 
         public ViewHolder(View itemView) {
@@ -74,6 +98,8 @@ public class DuanziActivityAdapter extends RecyclerView.Adapter<DuanziActivityAd
             tvDuanziUsername = (TextView)itemView.findViewById(R.id.tv_duanzi_username);
             tvVoteUp = (TextView)itemView.findViewById(R.id.tv_voteup);
             tvVoteDown = (TextView)itemView.findViewById(R.id.tv_votedown);
+            ivVoteDown = (ImageView)itemView.findViewById(R.id.iv_shit);
+            ivVoteUp = (ImageView)itemView.findViewById(R.id.iv_laugh);
         }
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherAPP</string>
+    <string name="app_name">铁锅天气</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Weatherwidget</string>
 </resources>
