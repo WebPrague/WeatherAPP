@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,6 +64,8 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
 
     //获取位置的详细描述
     private String locationDetail = null;
+
+    private SwipeRefreshLayout srlmain;
 
     //LBS
 
@@ -240,6 +243,17 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
             }
         });
         Typeface robotoThinTypeface = Typeface.createFromAsset(getResources().getAssets(), "Roboto-Thin.ttf");
+
+        srlmain = (SwipeRefreshLayout) view.findViewById(R.id.demo_swiperefreshlayout_main);
+        srlmain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //天气服务
+                    initLBS();
+                    //initialWeather();
+            }
+        });
+
 
         //初始化控件
         tvTmp = (TextView)view.findViewById(R.id.tv_tmp);
@@ -427,6 +441,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
                     sweetAlertDialog.cancel();
                 }
             },1500);
+            Toast.makeText(getActivity(),"天气数据更新完成！",Toast.LENGTH_LONG).show();
 
             locationSuccess(aMapLocation);
         }else {
@@ -436,6 +451,7 @@ public class WeatherFragment extends Fragment implements AMapLocationListener{
                     .show();
             locationFail(aMapLocation.getErrorInfo());
         }
+        srlmain.setRefreshing(false);
 
         if (mLocationClient.isStarted()){
             mLocationClient.stopLocation();
